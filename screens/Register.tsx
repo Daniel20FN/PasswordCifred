@@ -20,6 +20,7 @@ export default function Register({ navigation }) {
   const [password, setPassword] = useState("");
 
   const handleRegister = async () => {
+    //TODO Gestionar usuarios existentes, encriptar contrasenas
     try {
       // Crear un objeto con los datos del usuario
       const userData: User = {

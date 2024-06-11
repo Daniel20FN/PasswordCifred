@@ -13,10 +13,13 @@ import {
 } from "native-base";
 import { User } from "../types/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import CustomAlert from "../components/General/CustomAlert";
 export default function Login({ navigation }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [title, setTitle] = useState("Error al Iniciar Sesion");
+  const [textAlert, setTextAlert] = useState("");
 
   const handleLogin = async () => {
     try {
@@ -32,10 +35,18 @@ export default function Login({ navigation }) {
         if (userToFind) {
           navigation.navigate("PasswordList");
         } else {
-          Alert.alert("Error", "Usuario o Contraseña incorrectos.");
+          setIsOpen(true);
+          setUsername("");
+          setPassword("");
+          setTextAlert("Usuario o Contraseña incorrectos.");
+          //Alert.alert("Error", "Usuario o Contraseña incorrectos.");
         }
       } else {
-        Alert.alert("Error", "No hay usuarios registrados.");
+        //Alert.alert("Error", "No hay usuarios registrados.");
+        setIsOpen(true);
+        setUsername("");
+        setPassword("");
+        setTextAlert("No hay usuarios registrados.");
       }
     } catch (error) {
       console.log("Error al Iniciar Sesion");
@@ -49,6 +60,12 @@ export default function Login({ navigation }) {
       }}
     >
       <View>
+        <CustomAlert
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          title={title}
+          text={textAlert}
+        />
         <VStack
           width="100%"
           height="100%"
