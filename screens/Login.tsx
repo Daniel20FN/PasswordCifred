@@ -1,6 +1,6 @@
 import React from "react";
-import { Button, Text, View } from "react-native";
-
+import { Text, View } from "react-native";
+import { Button } from "native-base";
 export default function Login({ navigation }) {
   return (
     <View
@@ -21,9 +21,13 @@ export default function Login({ navigation }) {
         }}
       >
         <Button
-          title="Go to Passwords"
+          size="md"
+          variant="outline"
+          colorScheme="secondary"
           onPress={() => navigation.navigate("PasswordList")}
-        />
+        >
+          SECONDARY
+        </Button>
       </View>
     </View>
   );
