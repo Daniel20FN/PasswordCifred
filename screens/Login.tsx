@@ -11,6 +11,7 @@ import {
   Divider,
   Link,
 } from "native-base";
+import { User } from "../types/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login({ navigation }) {
@@ -22,7 +23,7 @@ export default function Login({ navigation }) {
       const usersData = await AsyncStorage.getItem("registros");
 
       if (usersData !== null) {
-        const users = JSON.parse(usersData);
+        const users: User[] = JSON.parse(usersData);
 
         const userToFind = users.find(
           (user) => user.username === username && user.password === password

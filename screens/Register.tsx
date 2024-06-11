@@ -22,7 +22,7 @@ export default function Register({ navigation }) {
   const handleRegister = async () => {
     try {
       // Crear un objeto con los datos del usuario
-      const userData = {
+      const userData: User = {
         nombre,
         username,
         password,
@@ -30,7 +30,7 @@ export default function Register({ navigation }) {
 
       // Obtener los datos de registro guardados en AsyncStorage
       const registrosAnteriores = await AsyncStorage.getItem("registros");
-      let nuevosRegistros = [];
+      let nuevosRegistros: User[] = [];
 
       if (registrosAnteriores !== null) {
         // Si hay datos anteriores, convertirlos de JSON a array
