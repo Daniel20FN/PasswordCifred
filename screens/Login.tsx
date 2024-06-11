@@ -37,7 +37,12 @@ export default function Login({ navigation }) {
           <Input />
           <FormControl.Label>Password</FormControl.Label>
           <Input type="password" />
-          <Button marginTop={3} size="sm" bgColor="#B49134">
+          <Button
+            onPress={() => navigation.navigate("PasswordList")}
+            marginTop={3}
+            size="sm"
+            bgColor="#B49134"
+          >
             Entrar
           </Button>
           <Center marginTop={2}>
