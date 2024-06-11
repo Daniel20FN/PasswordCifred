@@ -28,7 +28,7 @@ export default function Login({ navigation }) {
           paddingLeft={50}
           paddingRight={50}
         >
-          <Center shadow={3} marginBottom={100}>
+          <Center shadow={3} marginBottom={5}>
             <Image
               source={require("../assets/LogoTransparente.png")}
               alt="Logo Encrypt"
