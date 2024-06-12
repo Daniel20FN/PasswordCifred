@@ -34,6 +34,9 @@ export default function LoginScreen({ navigation }) {
         );
         console.log(userToFind);
         if (userToFind) {
+          setUsername("");
+          setPassword("");
+
           navigation.navigate("PasswordList");
         } else {
           setIsOpen(true);

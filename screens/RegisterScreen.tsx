@@ -13,14 +13,18 @@ import {
 } from "native-base";
 import { User } from "../types/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import CustomAlert from "../components/General/CustomAlert";
 
 export default function RegisterScreen({ navigation }) {
   const [nombre, setNombre] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [title, setTitle] = useState("Error al Registrarse");
+  const [textAlert, setTextAlert] = useState("");
 
   const handleRegister = async () => {
-    //TODO Gestionar usuarios existentes, encriptar contrasenas
+    //TODO encriptar contrasenas
     try {
       // Crear un objeto con los datos del usuario
       const userData: User = {
@@ -38,21 +42,36 @@ export default function RegisterScreen({ navigation }) {
         nuevosRegistros = JSON.parse(registrosAnteriores);
       }
 
-      // Agregar el nuevo registro al array de registros
-      nuevosRegistros.push(userData);
+      //Comprobar que el usuario no esta registrado ya
+      const usuarioExistente = nuevosRegistros.find(
+        (user) => user.username === username
+      );
 
-      // Guardar el array actualizado en AsyncStorage
-      await AsyncStorage.setItem("registros", JSON.stringify(nuevosRegistros));
+      if (usuarioExistente) {
+        setIsOpen(true);
+        setTextAlert(
+          "Ya existe un usuario con estas credenciales, por favor cree uno nuevo o inicie sesion."
+        );
+      } else {
+        // Agregar el nuevo registro al array de registros
+        nuevosRegistros.push(userData);
 
-      console.log(nuevosRegistros);
+        // Guardar el array actualizado en AsyncStorage
+        await AsyncStorage.setItem(
+          "registros",
+          JSON.stringify(nuevosRegistros)
+        );
 
-      // Limpiar los campos después de registrar
-      setNombre("");
-      setUsername("");
-      setPassword("");
+        console.log(nuevosRegistros);
 
-      // Navegar a la pantalla de lista de contraseñas o cualquier otra pantalla deseada
-      navigation.navigate("Login");
+        // Limpiar los campos después de registrar
+        setNombre("");
+        setUsername("");
+        setPassword("");
+
+        // Navegar a la pantalla de lista de contraseñas o cualquier otra pantalla deseada
+        navigation.navigate("Login");
+      }
     } catch (error) {
       console.error("Error al registrar usuario:", error);
     }
@@ -65,51 +84,55 @@ export default function RegisterScreen({ navigation }) {
       }}
     >
       <View>
-        <View>
-          <VStack
-            width="100%"
-            height="100%"
-            justifyContent={"center"}
-            space={4}
-            paddingLeft={50}
-            paddingRight={50}
-          >
-            <Center shadow={3} marginBottom={5}>
-              <Image
-                source={require("../assets/LogoTransparente.png")}
-                alt="Logo Encrypt"
-                size="xl"
-              />
+        <CustomAlert
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          title={title}
+          text={textAlert}
+        />
+        <VStack
+          width="100%"
+          height="100%"
+          justifyContent={"center"}
+          space={4}
+          paddingLeft={50}
+          paddingRight={50}
+        >
+          <Center shadow={3} marginBottom={5}>
+            <Image
+              source={require("../assets/LogoTransparente.png")}
+              alt="Logo Encrypt"
+              size="xl"
+            />
+          </Center>
+          <FormControl mb="5">
+            <Heading>Registrarse</Heading>
+            <Divider />
+            <FormControl.Label>Nombre</FormControl.Label>
+            <Input value={nombre} onChangeText={setNombre} />
+            <FormControl.Label>Usuario</FormControl.Label>
+            <Input value={username} onChangeText={setUsername} />
+            <FormControl.Label>Password</FormControl.Label>
+            <Input
+              type="password"
+              value={password}
+              onChangeText={setPassword}
+            />
+            <Button
+              onPress={handleRegister}
+              marginTop={3}
+              size="sm"
+              bgColor="#B49134"
+            >
+              Registrarse
+            </Button>
+            <Center marginTop={2}>
+              <Link onPress={() => navigation.navigate("Login")}>
+                Iniciar Sesion
+              </Link>
             </Center>
-            <FormControl mb="5">
-              <Heading>Registrarse</Heading>
-              <Divider />
-              <FormControl.Label>Nombre</FormControl.Label>
-              <Input value={nombre} onChangeText={setNombre} />
-              <FormControl.Label>Usuario</FormControl.Label>
-              <Input value={username} onChangeText={setUsername} />
-              <FormControl.Label>Password</FormControl.Label>
-              <Input
-                type="password"
-                value={password}
-                onChangeText={setPassword}
-              />
-              <Button
-                onPress={handleRegister}
-                marginTop={3}
-                size="sm"
-                bgColor="#B49134"
-              >
-                Registrarse
-              </Button>
-              <Center marginTop={2}>
-                <Link onPress={() => navigation.navigate("Login")}>
-                  Iniciar Sesion
-                </Link>
-              </Center>
-            </FormControl>
-          </VStack>
-        </View>
+          </FormControl>
+        </VStack>
       </View>
     </TouchableWithoutFeedback>
   );
