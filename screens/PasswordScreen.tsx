@@ -4,7 +4,7 @@ import { Divider, HStack, Icon, IconButton, Text, VStack } from "native-base";
 import SearchBar from "../components/PasswordComponents/SearchBar";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
-export default function PasswordList({ navigation }) {
+export default function PasswordScreen({ navigation }) {
   return (
     <View>
       <VStack>

@@ -14,7 +14,7 @@ import {
 import { User } from "../types/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function Register({ navigation }) {
+export default function RegisterScreen({ navigation }) {
   const [nombre, setNombre] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
