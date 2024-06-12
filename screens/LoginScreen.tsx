@@ -105,6 +105,9 @@ export default function LoginScreen({ navigation }) {
               <Link onPress={() => navigation.navigate("Register")}>
                 Añadir Cuenta
               </Link>
+              <Link onPress={() => navigation.navigate("PasswordList")}>
+                To password
+              </Link>
             </Center>
           </FormControl>
         </VStack>
