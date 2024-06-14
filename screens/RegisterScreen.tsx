@@ -14,6 +14,7 @@ import {
 import { User } from "../types/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomAlert from "../components/General/CustomAlert";
+import CryptoJS from "crypto-js";
 
 export default function RegisterScreen({ navigation }) {
   const [nombre, setNombre] = useState("");
@@ -26,11 +27,12 @@ export default function RegisterScreen({ navigation }) {
   const handleRegister = async () => {
     //TODO encriptar contrasenas
     try {
-      // Crear un objeto con los datos del usuario
+      const hash = CryptoJS.SHA256(password).toString();
+
       const userData: User = {
         nombre,
         username,
-        password,
+        password: hash,
       };
 
       // Obtener los datos de registro guardados en AsyncStorage
