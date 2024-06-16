@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Keyboard, TouchableWithoutFeedback, View, Alert } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
 import {
   Button,
   Center,
@@ -10,6 +10,9 @@ import {
   Heading,
   Divider,
   Link,
+  Switch,
+  HStack,
+  Text,
 } from "native-base";
 import { User } from "../types/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -22,11 +25,31 @@ export default function LoginScreen({ navigation }) {
   const [isOpen, setIsOpen] = useState(false);
   const [title, setTitle] = useState("Error al Iniciar Sesion");
   const [textAlert, setTextAlert] = useState("");
+  const [keepLogin, setKeepLogin] = useState(false);
+
+  useEffect(() => {
+    const verifyUserLoged = async () => {
+      try {
+        const usersData = await AsyncStorage.getItem("registros");
+        if (usersData !== null) {
+          const users = JSON.parse(usersData);
+          const lastUserLoged = users.find((user) => user.keepLogin === true);
+
+          if (lastUserLoged) {
+            navigation.navigate("PasswordList");
+          }
+        }
+      } catch (error) {
+        console.error("Error al verificar el usuario logueado:", error);
+      }
+    };
+
+    verifyUserLoged();
+  }, []);
 
   const handleLogin = async () => {
     try {
       const usersData = await AsyncStorage.getItem("registros");
-
       if (usersData !== null) {
         const users: User[] = JSON.parse(usersData);
 
@@ -40,6 +63,13 @@ export default function LoginScreen({ navigation }) {
           setUsername("");
           setPassword("");
 
+          console.log(keepLogin);
+          if (keepLogin) {
+            userToFind.keepLogin = keepLogin;
+            await AsyncStorage.setItem("registros", JSON.stringify(users));
+          }
+
+          console.log(userToFind);
           navigation.navigate("PasswordList");
         } else {
           setIsOpen(true);
@@ -93,12 +123,25 @@ export default function LoginScreen({ navigation }) {
             <Divider />
             <FormControl.Label>Usuario</FormControl.Label>
             <Input value={username} onChangeText={setUsername} />
-            <FormControl.Label>Password</FormControl.Label>
+            <FormControl.Label>Contraseña</FormControl.Label>
             <Input
               type="password"
               value={password}
               onChangeText={setPassword}
             />
+            <HStack alignItems="center" space={4}>
+              <Text>Mantener Sesión Iniciada</Text>
+              <Switch
+                defaultIsChecked={false}
+                offTrackColor="red.300"
+                onTrackColor="orange.200"
+                onThumbColor="orange.500"
+                offThumbColor="red.500"
+                onValueChange={(e) => {
+                  setKeepLogin(e);
+                }}
+              />
+            </HStack>
             <Button
               onPress={handleLogin}
               marginTop={3}

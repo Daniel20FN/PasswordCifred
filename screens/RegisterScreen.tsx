@@ -25,7 +25,6 @@ export default function RegisterScreen({ navigation }) {
   const [textAlert, setTextAlert] = useState("");
 
   const handleRegister = async () => {
-    //TODO encriptar contrasenas
     try {
       const hash = CryptoJS.SHA256(password).toString();
 
@@ -33,6 +32,7 @@ export default function RegisterScreen({ navigation }) {
         nombre,
         username,
         password: hash,
+        keepLogin: false,
       };
 
       // Obtener los datos de registro guardados en AsyncStorage
