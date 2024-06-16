@@ -14,6 +14,7 @@ import {
 import { User } from "../types/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomAlert from "../components/General/CustomAlert";
+import CryptoJS from "crypto-js";
 
 export default function LoginScreen({ navigation }) {
   const [username, setUsername] = useState("");
@@ -29,11 +30,16 @@ export default function LoginScreen({ navigation }) {
       if (usersData !== null) {
         const users: User[] = JSON.parse(usersData);
 
+        const hash = CryptoJS.SHA256(password).toString();
+
         const userToFind = users.find(
-          (user) => user.username === username && user.password === password
+          (user) => user.username === username && user.password === hash
         );
-        console.log(userToFind);
+
         if (userToFind) {
+          setUsername("");
+          setPassword("");
+
           navigation.navigate("PasswordList");
         } else {
           setIsOpen(true);
