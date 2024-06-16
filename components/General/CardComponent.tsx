@@ -16,11 +16,13 @@ export const CardComponent = ({
   icono,
   useButton = true,
   iconoDerecha,
+  onPress,
 }: {
   aplicacion: string;
   icono: string;
   useButton: boolean;
   iconoDerecha: string;
+  onPress: () => void;
 }) => {
   return (
     <Box
@@ -48,7 +50,7 @@ export const CardComponent = ({
         paddingLeft={2}
       >
         <VStack w={"20%"}>
-          <Icon as={Ionicons} name="logo-instagram" size="2xl" color="black" />
+          <Icon as={Ionicons} name={icono} size="2xl" color="black" />
         </VStack>
         <VStack w={"60%"}>
           <Text fontSize={"lg"}>{aplicacion}</Text>
@@ -56,6 +58,7 @@ export const CardComponent = ({
         <VStack w="20%" alignItems="center">
           {useButton && (
             <IconButton
+              onPress={onPress}
               icon={
                 <Icon
                   as={MaterialIcons}

@@ -7,9 +7,11 @@ import { CardComponent } from "../General/CardComponent";
 import { App } from "../../types/types";
 
 export default function PasswordScreen({
+  navigation,
   NuevoItemCreado,
   busqueda,
 }: {
+  navigation;
   NuevoItemCreado: object;
   busqueda: string | undefined;
 }) {
@@ -36,9 +38,12 @@ export default function PasswordScreen({
           <CardComponent
             key={index}
             aplicacion={app.nombre}
-            icono={app.icon}
+            icono={"logo-instagram"}
             useButton
             iconoDerecha={"visibility"}
+            onPress={() => {
+              navigation.navigate("CreatePassword");
+            }}
           />
         ))}
       </VStack>

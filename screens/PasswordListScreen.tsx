@@ -62,7 +62,11 @@ export default function PasswordListScreen({ navigation }) {
             </VStack>
           </HStack>
           <Divider bg={"#F1BD3D"} h={"1"} />
-          <PasswordList NuevoItemCreado={NuevoItemCreado} busqueda={busqueda} />
+          <PasswordList
+            NuevoItemCreado={NuevoItemCreado}
+            busqueda={busqueda}
+            navigation={navigation}
+          />
         </VStack>
       </ScrollView>
     </TouchableWithoutFeedback>
