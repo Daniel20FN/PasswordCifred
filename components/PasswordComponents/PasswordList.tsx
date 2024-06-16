@@ -36,18 +36,21 @@ export default function PasswordScreen({
   return (
     <View>
       <VStack paddingTop={5}>
-        {filteredApps.map((app, index) => (
-          <CardComponent
-            key={index}
-            aplicacion={app.nombre}
-            icono={"logo-instagram"}
-            useButton
-            iconoDerecha={"visibility"}
-            onPress={() => {
-              navigation.navigate("CreatePassword");
-            }}
-          />
-        ))}
+        {filteredApps.map(
+          (app, index) =>
+            app.username == user.username && (
+              <CardComponent
+                key={index}
+                aplicacion={app.nombre}
+                icono={"logo-instagram"}
+                useButton
+                iconoDerecha={"visibility"}
+                onPress={() => {
+                  navigation.navigate("CreatePassword");
+                }}
+              />
+            )
+        )}
       </VStack>
     </View>
   );
