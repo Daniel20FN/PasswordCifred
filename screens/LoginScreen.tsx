@@ -63,7 +63,7 @@ export default function LoginScreen({ navigation }) {
           setUsername("");
           setPassword("");
 
-          console.log(keepLogin);
+          //console.log(keepLogin);
           if (keepLogin) {
             userToFind.keepLogin = keepLogin;
             await AsyncStorage.setItem("registros", JSON.stringify(users));
