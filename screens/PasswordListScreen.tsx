@@ -5,8 +5,13 @@ import SearchBar from "../components/PasswordComponents/SearchBar";
 import { MaterialIcons } from "@expo/vector-icons";
 import PasswordList from "../components/PasswordComponents/PasswordList";
 
-export default function PasswordScreen({ navigation }) {
+export default function PasswordListScreen({ navigation }) {
   const [isFocused, setIsFocused] = useState(false);
+
+  const [aplicacion, setAplicacion] = useState("");
+  const [icono, setIcono] = useState("");
+  const [contraseña, setContraseña] = useState("");
+
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -24,6 +29,7 @@ export default function PasswordScreen({ navigation }) {
               <IconButton
                 icon={
                   <Icon
+                    onPress={() => navigation.navigate("CreatePassword")}
                     as={MaterialIcons}
                     name="add"
                     size="2xl"
@@ -35,7 +41,7 @@ export default function PasswordScreen({ navigation }) {
             </VStack>
           </HStack>
           <Divider bg={"#F1BD3D"} h={"1"} />
-          <PasswordList />
+          <PasswordList aplicacion={aplicacion} icono={icono} />
         </VStack>
       </View>
     </TouchableWithoutFeedback>
