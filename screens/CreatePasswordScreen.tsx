@@ -11,13 +11,27 @@ import {
   Input,
   Link,
   Button,
+  Checkbox,
 } from "native-base";
 import { App, User } from "../types/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomAlert from "../components/General/CustomAlert";
 
+function generateSecurePassword(length = 20) {
+  const charset =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=";
+  let password = "";
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * charset.length);
+    password += charset[randomIndex];
+  }
+  return password;
+}
+
 export default function CreatePassword({ navigation }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [useGeneratedPassword, setUseGeneratedPassword] = useState(false);
 
   const [aplicacion, setAplicacion] = useState("");
   const [icono, setIcono] = useState("");
@@ -84,6 +98,18 @@ export default function CreatePassword({ navigation }) {
     navigation.navigate("PasswordList", { created: created });
   };
 
+  // Handler para generar y establecer una contraseña aleatoria
+  const handleGeneratedPassword = () => {
+    if (useGeneratedPassword) {
+      setContraseña(generateSecurePassword());
+    }
+  };
+
+  // Efecto para generar contraseña cuando el checkbox está seleccionado
+  React.useEffect(() => {
+    handleGeneratedPassword();
+  }, [useGeneratedPassword]);
+
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -105,9 +131,14 @@ export default function CreatePassword({ navigation }) {
           paddingLeft={50}
           paddingRight={50}
         >
+          <Center shadow={3} marginBottom={5}>
+            <Image
+              source={require("../assets/LogoTransparenteSinLetras.png")}
+              alt="Logo Encrypt"
+              size="xl"
+            />
+          </Center>
           <FormControl mb="5">
-            <Heading>Guardar nueva contraseña</Heading>
-            <Divider />
             <FormControl.Label>Nombre de la app</FormControl.Label>
             <Input
               value={aplicacion}
@@ -115,10 +146,28 @@ export default function CreatePassword({ navigation }) {
             />
             <FormControl.Label>Contraseña</FormControl.Label>
             <Input
-              type="password"
+              type={showPassword ? "text" : "password"}
               value={contraseña}
               onChangeText={(text) => setContraseña(text)}
+              marginBottom={5}
             />
+            <Checkbox
+              isChecked={showPassword}
+              onChange={() => setShowPassword(!showPassword)}
+              value={""}
+            >
+              Mostrar Contraseña
+            </Checkbox>
+            <Checkbox
+              isChecked={useGeneratedPassword}
+              onChange={() => {
+                setUseGeneratedPassword(!useGeneratedPassword),
+                  setContraseña("");
+              }}
+              value={""}
+            >
+              Usar Contraseña Aleatoria
+            </Checkbox>
             <Button
               onPress={handleNuevoItem}
               marginTop={3}
