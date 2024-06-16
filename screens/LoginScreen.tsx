@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Keyboard, TouchableWithoutFeedback, View, Alert } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
 import {
   Button,
   Center,
@@ -10,6 +10,9 @@ import {
   Heading,
   Divider,
   Link,
+  Switch,
+  HStack,
+  Text,
 } from "native-base";
 import { User } from "../types/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -22,11 +25,43 @@ export default function LoginScreen({ navigation }) {
   const [isOpen, setIsOpen] = useState(false);
   const [title, setTitle] = useState("Error al Iniciar Sesion");
   const [textAlert, setTextAlert] = useState("");
+  const [keepLogin, setKeepLogin] = useState(false);
+  const [logedUsers, setLogedUsers] = useState<User[]>([]);
+  const [logedUser, setLogedUser] = useState<User>();
+  useEffect(() => {
+    const verifyUserLoged = async () => {
+      try {
+        const usersData = await AsyncStorage.getItem("registros");
+        if (usersData !== null) {
+          const users = JSON.parse(usersData);
+          const lastUsersLoged = users.filter(
+            (user) => user.keepLogin === true && user.isActive
+          );
+          //console.log(lastUsersLoged);
+          if (lastUsersLoged) {
+            if (lastUsersLoged.length > 1) {
+              setLogedUsers(lastUsersLoged);
+              /*navigation.navigate("ChooseUserLoged", {
+                logedUsers: lastUsersLoged,
+              });*/
+              console.log("a la pagina para escoger usuario a entrar");
+            } else {
+              setLogedUser(lastUsersLoged[0]);
+              navigation.navigate("PasswordList", { userLoged: logedUser });
+            }
+          }
+        }
+      } catch (error) {
+        console.error("Error al verificar el usuario logueado:", error);
+      }
+    };
+
+    verifyUserLoged();
+  }, []);
 
   const handleLogin = async () => {
     try {
       const usersData = await AsyncStorage.getItem("registros");
-
       if (usersData !== null) {
         const users: User[] = JSON.parse(usersData);
 
@@ -40,12 +75,22 @@ export default function LoginScreen({ navigation }) {
           setUsername("");
           setPassword("");
 
-          navigation.navigate("PasswordList");
+          //console.log(keepLogin);
+          if (keepLogin) {
+            userToFind.keepLogin = keepLogin;
+          }
+          userToFind.isActive = true;
+
+          await AsyncStorage.setItem("registros", JSON.stringify(users));
+
+          console.log(userToFind);
+          setLogedUser(userToFind);
+          navigation.navigate("PasswordList", { userLoged: logedUser });
         } else {
+          setTextAlert("Usuario o Contraseña incorrectos.");
           setIsOpen(true);
           setUsername("");
           setPassword("");
-          setTextAlert("Usuario o Contraseña incorrectos.");
           //Alert.alert("Error", "Usuario o Contraseña incorrectos.");
         }
       } else {
@@ -93,12 +138,25 @@ export default function LoginScreen({ navigation }) {
             <Divider />
             <FormControl.Label>Usuario</FormControl.Label>
             <Input value={username} onChangeText={setUsername} />
-            <FormControl.Label>Password</FormControl.Label>
+            <FormControl.Label>Contraseña</FormControl.Label>
             <Input
               type="password"
               value={password}
               onChangeText={setPassword}
             />
+            <HStack alignItems="center" space={4}>
+              <Text>Mantener Sesión Iniciada</Text>
+              <Switch
+                defaultIsChecked={false}
+                offTrackColor="red.300"
+                onTrackColor="orange.200"
+                onThumbColor="orange.500"
+                offThumbColor="red.500"
+                onValueChange={(e) => {
+                  setKeepLogin(e);
+                }}
+              />
+            </HStack>
             <Button
               onPress={handleLogin}
               marginTop={3}

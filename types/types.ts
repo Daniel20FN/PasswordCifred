@@ -9,4 +9,6 @@ export type User = {
   nombre: string;
   username: string;
   password: string;
+  keepLogin: boolean;
+  isActive: boolean;
 };
