@@ -21,7 +21,6 @@ export default function PasswordListScreen({ navigation }) {
   const route = useRoute();
   const NuevoItemCreado = route.params["created"];
   const UsuarioLogeado: User = route.params["userLoged"];
-  console.log(NuevoItemCreado);
   console.log(UsuarioLogeado);
 
   return (

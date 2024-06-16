@@ -33,12 +33,12 @@ export default function LoginScreen({ navigation }) {
       try {
         const usersData = await AsyncStorage.getItem("registros");
         if (usersData !== null) {
-          const users = JSON.parse(usersData);
+          const users: User[] = JSON.parse(usersData);
           const lastUsersLoged = users.filter(
-            (user) => user.keepLogin === true && user.isActive
+            (user) => user.keepLogin === true
           );
           //console.log(lastUsersLoged);
-          if (lastUsersLoged) {
+          if (!(lastUsersLoged.length == 0)) {
             if (lastUsersLoged.length > 1) {
               setLogedUsers(lastUsersLoged);
               navigation.navigate("ChooseUserLoged", {

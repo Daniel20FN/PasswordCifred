@@ -24,6 +24,7 @@ export default function PasswordScreen({
       const data = await AsyncStorage.getItem("aplicaciones");
       if (data) {
         setAplicacionesGuardadas(JSON.parse(data));
+        console.log(aplicacionesGuardadas);
       }
     };
     fetchData();

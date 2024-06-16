@@ -41,7 +41,7 @@ export default function CreatePassword({ navigation }) {
   const [textAlert, setTextAlert] = useState("");
   const [created, setCreated] = useState(false);
   const route = useRoute();
-  const user = route.name["nombreUsuario"];
+  const user = route.params["nombreUsuario"];
 
   const handleNuevoItem = async () => {
     // Crear un objeto con los datos de la contraseña
