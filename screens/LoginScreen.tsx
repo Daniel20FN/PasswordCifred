@@ -27,7 +27,7 @@ export default function LoginScreen({ navigation }) {
   const [textAlert, setTextAlert] = useState("");
   const [keepLogin, setKeepLogin] = useState(false);
   const [logedUsers, setLogedUsers] = useState<User[]>([]);
-  const [logedUser, setLogedUser] = useState<User>();
+  const [logedUser, setLogedUser] = useState<User>(undefined);
   useEffect(() => {
     const verifyUserLoged = async () => {
       try {
@@ -40,10 +40,10 @@ export default function LoginScreen({ navigation }) {
           //console.log(lastUsersLoged);
           if (lastUsersLoged) {
             if (lastUsersLoged.length > 1) {
-              setLogedUsers(lastUsersLoged);
+              /*setLogedUsers(lastUsersLoged);
               navigation.navigate("ChooseUserLoged", {
                 logedUsers: lastUsersLoged,
-              });
+              });*/
               console.log("a la pagina para escoger usuario a entrar");
             } else {
               setLogedUser(lastUsersLoged[0]);
@@ -83,9 +83,8 @@ export default function LoginScreen({ navigation }) {
 
           await AsyncStorage.setItem("registros", JSON.stringify(users));
 
-          console.log(userToFind);
           setLogedUser(userToFind);
-          navigation.navigate("PasswordList", { userLoged: logedUser });
+          navigation.navigate("PasswordList", { userLoged: userToFind });
         } else {
           setTextAlert("Usuario o Contraseña incorrectos.");
           setIsOpen(true);
