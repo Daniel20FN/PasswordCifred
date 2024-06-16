@@ -26,17 +26,29 @@ export default function LoginScreen({ navigation }) {
   const [title, setTitle] = useState("Error al Iniciar Sesion");
   const [textAlert, setTextAlert] = useState("");
   const [keepLogin, setKeepLogin] = useState(false);
-
+  const [logedUsers, setLogedUsers] = useState<User[]>([]);
+  const [logedUser, setLogedUser] = useState<User>();
   useEffect(() => {
     const verifyUserLoged = async () => {
       try {
         const usersData = await AsyncStorage.getItem("registros");
         if (usersData !== null) {
           const users = JSON.parse(usersData);
-          const lastUserLoged = users.find((user) => user.keepLogin === true);
-
-          if (lastUserLoged) {
-            navigation.navigate("PasswordList");
+          const lastUsersLoged = users.filter(
+            (user) => user.keepLogin === true && user.isActive
+          );
+          //console.log(lastUsersLoged);
+          if (lastUsersLoged) {
+            if (lastUsersLoged.length > 1) {
+              setLogedUsers(lastUsersLoged);
+              /*navigation.navigate("ChooseUserLoged", {
+                logedUsers: lastUsersLoged,
+              });*/
+              console.log("a la pagina para escoger usuario a entrar");
+            } else {
+              setLogedUser(lastUsersLoged[0]);
+              navigation.navigate("PasswordList", { userLoged: logedUser });
+            }
           }
         }
       } catch (error) {
@@ -66,16 +78,19 @@ export default function LoginScreen({ navigation }) {
           //console.log(keepLogin);
           if (keepLogin) {
             userToFind.keepLogin = keepLogin;
-            await AsyncStorage.setItem("registros", JSON.stringify(users));
           }
+          userToFind.isActive = true;
+
+          await AsyncStorage.setItem("registros", JSON.stringify(users));
 
           console.log(userToFind);
-          navigation.navigate("PasswordList");
+          setLogedUser(userToFind);
+          navigation.navigate("PasswordList", { userLoged: logedUser });
         } else {
+          setTextAlert("Usuario o Contraseña incorrectos.");
           setIsOpen(true);
           setUsername("");
           setPassword("");
-          setTextAlert("Usuario o Contraseña incorrectos.");
           //Alert.alert("Error", "Usuario o Contraseña incorrectos.");
         }
       } else {

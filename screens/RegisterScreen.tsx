@@ -33,6 +33,7 @@ export default function RegisterScreen({ navigation }) {
         username,
         password: hash,
         keepLogin: false,
+        isActive: false,
       };
 
       // Obtener los datos de registro guardados en AsyncStorage
