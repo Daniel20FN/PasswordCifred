@@ -1,16 +1,23 @@
 import React, { useState } from "react";
 import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
-import { Divider, HStack, Icon, IconButton, Text, VStack } from "native-base";
+import {
+  Divider,
+  HStack,
+  Icon,
+  IconButton,
+  ScrollView,
+  Text,
+  VStack,
+} from "native-base";
 import SearchBar from "../components/PasswordComponents/SearchBar";
 import { MaterialIcons } from "@expo/vector-icons";
 import PasswordList from "../components/PasswordComponents/PasswordList";
+import { useRoute } from "@react-navigation/native";
 
 export default function PasswordListScreen({ navigation }) {
   const [isFocused, setIsFocused] = useState(false);
-
-  const [aplicacion, setAplicacion] = useState("");
-  const [icono, setIcono] = useState("");
-  const [contraseña, setContraseña] = useState("");
+  const route = useRoute();
+  const NuevoItemCreado = route.params;
 
   return (
     <TouchableWithoutFeedback
@@ -19,7 +26,7 @@ export default function PasswordListScreen({ navigation }) {
         setIsFocused(false);
       }}
     >
-      <View>
+      <ScrollView>
         <VStack>
           <HStack justifyContent="space-between" alignItems="center">
             <VStack w={"80%"}>
@@ -41,9 +48,9 @@ export default function PasswordListScreen({ navigation }) {
             </VStack>
           </HStack>
           <Divider bg={"#F1BD3D"} h={"1"} />
-          <PasswordList aplicacion={aplicacion} icono={icono} />
+          <PasswordList NuevoItemCreado={NuevoItemCreado} />
         </VStack>
-      </View>
+      </ScrollView>
     </TouchableWithoutFeedback>
   );
 }
