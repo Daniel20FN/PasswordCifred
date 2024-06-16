@@ -38,6 +38,7 @@ export default function PasswordScreen({
             aplicacion={app.nombre}
             icono={app.icon}
             useButton
+            iconoDerecha={"visibility"}
           />
         ))}
       </VStack>

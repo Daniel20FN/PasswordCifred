@@ -16,6 +16,7 @@ import {
 import { App, User } from "../types/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomAlert from "../components/General/CustomAlert";
+import { useRoute } from "@react-navigation/native";
 
 function generateSecurePassword(length = 20) {
   const charset =
@@ -39,7 +40,8 @@ export default function CreatePassword({ navigation }) {
   const [title, setTitle] = useState("");
   const [textAlert, setTextAlert] = useState("");
   const [created, setCreated] = useState(false);
-  const [user, setUser] = useState<User | undefined>(undefined);
+  const route = useRoute();
+  const user = route.name["nombreUsuario"];
 
   const handleNuevoItem = async () => {
     // Crear un objeto con los datos de la contraseña
@@ -47,7 +49,7 @@ export default function CreatePassword({ navigation }) {
       icon: icono,
       nombre: aplicacion,
       contraseña: contraseña,
-      username: "s",
+      username: user,
     };
 
     // Obtener los datos de registro guardados en AsyncStorage

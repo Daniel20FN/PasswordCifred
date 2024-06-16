@@ -13,13 +13,16 @@ import SearchBar from "../components/PasswordComponents/SearchBar";
 import { MaterialIcons } from "@expo/vector-icons";
 import PasswordList from "../components/PasswordComponents/PasswordList";
 import { useRoute } from "@react-navigation/native";
+import { User } from "../types/types";
 
 export default function PasswordListScreen({ navigation }) {
   const [isFocused, setIsFocused] = useState(false);
   const [busqueda, setBusqueda] = useState<string | undefined>(undefined);
   const route = useRoute();
   const NuevoItemCreado = route.params["created"];
+  const UsuarioLogeado: User = route.params["userLoged"];
   console.log(NuevoItemCreado);
+  console.log(UsuarioLogeado.username);
 
   return (
     <TouchableWithoutFeedback
@@ -43,7 +46,11 @@ export default function PasswordListScreen({ navigation }) {
               <IconButton
                 icon={
                   <Icon
-                    onPress={() => navigation.navigate("CreatePassword")}
+                    onPress={() =>
+                      navigation.navigate("CreatePassword", {
+                        nombreUsuario: UsuarioLogeado.username,
+                      })
+                    }
                     as={MaterialIcons}
                     name="add"
                     size="2xl"

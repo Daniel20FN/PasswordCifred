@@ -7,6 +7,7 @@ import {
   VStack,
   IconButton,
   Divider,
+  Center,
 } from "native-base";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
@@ -14,10 +15,12 @@ export const CardComponent = ({
   aplicacion,
   icono,
   useButton = true,
+  iconoDerecha,
 }: {
   aplicacion: string;
   icono: string;
   useButton: boolean;
+  iconoDerecha: string;
 }) => {
   return (
     <Box
@@ -48,13 +51,18 @@ export const CardComponent = ({
           <Icon as={Ionicons} name="logo-instagram" size="2xl" color="black" />
         </VStack>
         <VStack w={"60%"}>
-          <Text>{aplicacion}</Text>
+          <Text fontSize={"lg"}>{aplicacion}</Text>
         </VStack>
         <VStack w="20%" alignItems="center">
           {useButton && (
             <IconButton
               icon={
-                <Icon as={MaterialIcons} name="add" size="2xl" color="black" />
+                <Icon
+                  as={MaterialIcons}
+                  name={iconoDerecha}
+                  size="2xl"
+                  color="black"
+                />
               }
               size="lg"
             />
