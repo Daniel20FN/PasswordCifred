@@ -24,9 +24,10 @@ export default function PasswordScreen({
   return (
     <View>
       <VStack paddingTop={5}>
-        {aplicacionesGuardadas.map((e, index) => (
-          <CardComponent key={index} aplicacion={e.nombre} icono={e.icon} />
-        ))}
+        {aplicacionesGuardadas &&
+          aplicacionesGuardadas.map((e, index) => (
+            <CardComponent key={index} aplicacion={e.nombre} icono={e.icon} />
+          ))}
       </VStack>
     </View>
   );
