@@ -4,16 +4,18 @@ import { VStack } from "native-base";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { CardComponent } from "../General/CardComponent";
-import { App } from "../../types/types";
+import { App, User } from "../../types/types";
 
 export default function PasswordScreen({
   navigation,
   NuevoItemCreado,
   busqueda,
+  user,
 }: {
   navigation;
   NuevoItemCreado: object;
   busqueda: string | undefined;
+  user: User;
 }) {
   const [aplicacionesGuardadas, setAplicacionesGuardadas] = useState<App[]>([]);
 

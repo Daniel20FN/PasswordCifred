@@ -22,7 +22,7 @@ export default function PasswordListScreen({ navigation }) {
   const NuevoItemCreado = route.params["created"];
   const UsuarioLogeado: User = route.params["userLoged"];
   console.log(NuevoItemCreado);
-  console.log(UsuarioLogeado.username);
+  console.log(UsuarioLogeado);
 
   return (
     <TouchableWithoutFeedback
@@ -66,6 +66,7 @@ export default function PasswordListScreen({ navigation }) {
             NuevoItemCreado={NuevoItemCreado}
             busqueda={busqueda}
             navigation={navigation}
+            user={UsuarioLogeado}
           />
         </VStack>
       </ScrollView>
