@@ -5,19 +5,21 @@ import { MaterialIcons } from "@expo/vector-icons";
 export default function SearchBar({
   isFocused,
   setIsFocused,
+  busqueda,
+  setBusqueda,
 }: {
   isFocused: boolean;
   setIsFocused: React.Dispatch<React.SetStateAction<boolean>>;
+  busqueda: string | undefined;
+  setBusqueda: React.Dispatch<React.SetStateAction<string | undefined>>;
 }) {
-  const [search, setSearch] = useState("");
-
   return (
     <View>
       <VStack w="100%" padding={5} space={2}>
         <Input
           placeholder="Buscar contraseña"
-          value={search}
-          onChangeText={(text) => setSearch(text)}
+          value={busqueda}
+          onChangeText={(text) => setBusqueda(text)}
           width="100%"
           borderRadius="4"
           focusOutlineColor={"#F1BD3D"}
@@ -42,7 +44,7 @@ export default function SearchBar({
               size="6"
               color="gray.400"
               as={<MaterialIcons name="clear" />}
-              onPress={() => setSearch("")}
+              onPress={() => setBusqueda(undefined)}
             />
           }
         />

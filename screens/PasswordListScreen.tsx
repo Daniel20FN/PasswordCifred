@@ -16,6 +16,7 @@ import { useRoute } from "@react-navigation/native";
 
 export default function PasswordListScreen({ navigation }) {
   const [isFocused, setIsFocused] = useState(false);
+  const [busqueda, setBusqueda] = useState<string | undefined>(undefined);
   const route = useRoute();
   const NuevoItemCreado = route.params;
 
@@ -30,7 +31,12 @@ export default function PasswordListScreen({ navigation }) {
         <VStack>
           <HStack justifyContent="space-between" alignItems="center">
             <VStack w={"80%"}>
-              <SearchBar isFocused={isFocused} setIsFocused={setIsFocused} />
+              <SearchBar
+                isFocused={isFocused}
+                setIsFocused={setIsFocused}
+                busqueda={busqueda}
+                setBusqueda={setBusqueda}
+              />
             </VStack>
             <VStack w="20%" alignItems="center">
               <IconButton
@@ -48,7 +54,7 @@ export default function PasswordListScreen({ navigation }) {
             </VStack>
           </HStack>
           <Divider bg={"#F1BD3D"} h={"1"} />
-          <PasswordList NuevoItemCreado={NuevoItemCreado} />
+          <PasswordList NuevoItemCreado={NuevoItemCreado} busqueda={busqueda} />
         </VStack>
       </ScrollView>
     </TouchableWithoutFeedback>

@@ -13,9 +13,11 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 export const CardComponent = ({
   aplicacion,
   icono,
+  useButton = true,
 }: {
   aplicacion: string;
   icono: string;
+  useButton: boolean;
 }) => {
   return (
     <Box
@@ -49,12 +51,14 @@ export const CardComponent = ({
           <Text>{aplicacion}</Text>
         </VStack>
         <VStack w="20%" alignItems="center">
-          <IconButton
-            icon={
-              <Icon as={MaterialIcons} name="add" size="2xl" color="black" />
-            }
-            size="lg"
-          />
+          {useButton && (
+            <IconButton
+              icon={
+                <Icon as={MaterialIcons} name="add" size="2xl" color="black" />
+              }
+              size="lg"
+            />
+          )}
         </VStack>
       </HStack>
       <Divider bg={"#D3D3D3"} h={"1"} />
