@@ -18,7 +18,8 @@ export default function PasswordListScreen({ navigation }) {
   const [isFocused, setIsFocused] = useState(false);
   const [busqueda, setBusqueda] = useState<string | undefined>(undefined);
   const route = useRoute();
-  const NuevoItemCreado = route.params;
+  const NuevoItemCreado = route.params["created"];
+  console.log(NuevoItemCreado);
 
   return (
     <TouchableWithoutFeedback
