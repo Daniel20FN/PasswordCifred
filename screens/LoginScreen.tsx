@@ -40,10 +40,10 @@ export default function LoginScreen({ navigation }) {
           //console.log(lastUsersLoged);
           if (lastUsersLoged) {
             if (lastUsersLoged.length > 1) {
-              /*setLogedUsers(lastUsersLoged);
+              setLogedUsers(lastUsersLoged);
               navigation.navigate("ChooseUserLoged", {
                 logedUsers: lastUsersLoged,
-              });*/
+              });
               console.log("a la pagina para escoger usuario a entrar");
             } else {
               setLogedUser(lastUsersLoged[0]);
