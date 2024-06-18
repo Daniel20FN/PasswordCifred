@@ -17,6 +17,7 @@ import { App, User } from "../types/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomAlert from "../components/General/CustomAlert";
 import { useRoute } from "@react-navigation/native";
+import CryptoJS from "crypto-js";
 
 function generateSecurePassword(length = 20) {
   const charset =
@@ -39,7 +40,7 @@ export default function CreatePassword({ navigation }) {
   const [contraseña, setContraseña] = useState("");
   const [title, setTitle] = useState("");
   const [textAlert, setTextAlert] = useState("");
-  const [created, setCreated] = useState(false);
+  const [created, setCreated] = useState<boolean>(false);
   const route = useRoute();
   const user: User = route.params["usuario"];
 
@@ -77,6 +78,8 @@ export default function CreatePassword({ navigation }) {
     }
 
     // Agregar el nuevo registro al array de registros
+    const hash = CryptoJS.SHA256(contraseña).toString();
+    itemData.contraseña = hash;
     nuevaContraseña.push(itemData);
 
     // Guardar el array actualizado en AsyncStorage
@@ -95,7 +98,7 @@ export default function CreatePassword({ navigation }) {
     setAplicacion("");
     setIcono("");
     setContraseña("");
-    setCreated(!created);
+    setCreated(true);
     // Navegar a la pantalla de lista de contraseñas o cualquier otra pantalla deseada
     navigation.navigate("PasswordList", { created: created, userLoged: user });
   };
