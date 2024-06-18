@@ -47,7 +47,7 @@ export default function PasswordListScreen({ navigation }) {
                   <Icon
                     onPress={() =>
                       navigation.navigate("CreatePassword", {
-                        nombreUsuario: UsuarioLogeado.username,
+                        usuario: UsuarioLogeado,
                       })
                     }
                     as={MaterialIcons}

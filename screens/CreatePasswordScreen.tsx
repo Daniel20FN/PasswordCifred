@@ -41,7 +41,7 @@ export default function CreatePassword({ navigation }) {
   const [textAlert, setTextAlert] = useState("");
   const [created, setCreated] = useState(false);
   const route = useRoute();
-  const user = route.params["nombreUsuario"];
+  const user: User = route.params["usuario"];
 
   const handleNuevoItem = async () => {
     // Crear un objeto con los datos de la contraseña
@@ -49,7 +49,7 @@ export default function CreatePassword({ navigation }) {
       icon: icono,
       nombre: aplicacion,
       contraseña: contraseña,
-      username: user,
+      username: user.username,
     };
 
     // Obtener los datos de registro guardados en AsyncStorage
@@ -63,7 +63,7 @@ export default function CreatePassword({ navigation }) {
 
     // Verificar si la aplicación ya existe
     const itemExistente = nuevaContraseña.some(
-      (e) => e.nombre === itemData.nombre
+      (e) => e.nombre === itemData.nombre && e.username === itemData.username
     );
 
     if (itemExistente) {
@@ -97,7 +97,7 @@ export default function CreatePassword({ navigation }) {
     setContraseña("");
     setCreated(!created);
     // Navegar a la pantalla de lista de contraseñas o cualquier otra pantalla deseada
-    navigation.navigate("PasswordList", { created: created });
+    navigation.navigate("PasswordList", { created: created, userLoged: user });
   };
 
   // Handler para generar y establecer una contraseña aleatoria
