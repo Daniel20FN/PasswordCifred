@@ -6,6 +6,7 @@ import LoginScreen from "./screens/LoginScreen";
 import PasswordListScreen from "./screens/PasswordListScreen";
 import CreatePasswordScreen from "./screens/CreatePasswordScreen";
 import ChooseUserLoged from "./screens/ChooseUserLoged";
+import Footer from "./components/General/Footer";
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +25,7 @@ export default function App() {
           <Stack.Screen name="ChooseUserLoged" component={ChooseUserLoged} />
         </Stack.Navigator>
       </NavigationContainer>
+      <Footer />
     </NativeBaseProvider>
   );
 }
