@@ -21,7 +21,7 @@ export default function PasswordListScreen({ navigation }) {
   const route = useRoute();
   const NuevoItemCreado = route.params["created"];
   const UsuarioLogeado: User = route.params["userLoged"];
-  console.log("Usuario en PasswordScreen " + UsuarioLogeado);
+  console.log("Usuario en PasswordScree " + UsuarioLogeado.username);
   console.log("Created en PasswordScreem " + NuevoItemCreado);
   return (
     <TouchableWithoutFeedback

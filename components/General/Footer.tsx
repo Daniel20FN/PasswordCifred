@@ -1,17 +1,10 @@
 import React, { useState } from "react";
-import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
-import {
-  Center,
-  HStack,
-  Text,
-  NativeBaseProvider,
-  Box,
-  Pressable,
-  Icon,
-} from "native-base";
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { Center, HStack, Text, Box, Pressable, Icon } from "native-base";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const Footer = () => {
+  const navigation = useNavigation();
   const [selected, setSelected] = useState(1);
   return (
     <Box bg="white" width="100%">
@@ -20,7 +13,9 @@ const Footer = () => {
           opacity={selected === 0 ? 1 : 0.5}
           py="3"
           flex={1}
-          onPress={() => setSelected(0)}
+          onPress={() => {
+            setSelected(0);
+          }}
         >
           <Center>
             <Icon
