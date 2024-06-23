@@ -76,7 +76,11 @@ export default function App() {
           <Stack.Screen
             name="Login"
             component={LoginScreen}
-            options={{ title: "Iniciar Sesión", headerLeft: null }}
+            options={{
+              title: "Iniciar Sesión",
+              headerShown: false,
+              headerLeft: null,
+            }}
           />
           <Stack.Screen
             name="Tab"
@@ -86,7 +90,11 @@ export default function App() {
           <Stack.Screen
             name="Register"
             component={RegisterScreen}
-            options={{ title: "Registrarse", headerLeft: null }}
+            options={{
+              title: "Registrarse",
+              headerShown: false,
+              headerLeft: null,
+            }}
           />
           <Stack.Screen
             name="CreatePassword"
@@ -99,6 +107,7 @@ export default function App() {
             options={{
               title: "Usuarios con Sesión Iniciada",
               headerLeft: null,
+              headerShown: false,
             }}
           />
         </Stack.Navigator>
