@@ -7,6 +7,7 @@ import LoginScreen from "./screens/LoginScreen";
 import PasswordListScreen from "./screens/PasswordListScreen";
 import CreatePasswordScreen from "./screens/CreatePasswordScreen";
 import ChooseUserLoged from "./screens/ChooseUserLoged";
+import CuentaScreen from "./screens/CuentaScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -44,7 +45,7 @@ const Tabs = () => {
       />
       <Tab.Screen
         name="Cuenta"
-        component={RegisterScreen}
+        component={CuentaScreen}
         options={{
           title: "Mi Cuenta",
           tabBarLabel: "Mi Cuenta",
