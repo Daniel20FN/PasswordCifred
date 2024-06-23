@@ -16,11 +16,23 @@ import { useRoute } from "@react-navigation/native";
 import { User } from "../types/types";
 
 export default function PasswordListScreen({ navigation }) {
+  const guestUser: User = {
+    nombre: "Invitado",
+    username: "invitado",
+    password: "root",
+    keepLogin: false,
+    isActive: false,
+  };
+
   const [isFocused, setIsFocused] = useState(false);
   const [busqueda, setBusqueda] = useState<string | undefined>(undefined);
   const route = useRoute();
-  const NuevoItemCreado = route.params["created"];
-  const UsuarioLogeado: User = route.params["userLoged"];
+  const parametros = route.params;
+  const NuevoItemCreado =
+    parametros != undefined ? parametros["created"] : false;
+  const UsuarioLogeado: User =
+    parametros != undefined ? parametros["userLoged"] : guestUser;
+
   console.log("Usuario en PasswordScree " + UsuarioLogeado.username);
   console.log("Created en PasswordScreem " + NuevoItemCreado);
   return (

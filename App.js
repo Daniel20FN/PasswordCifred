@@ -7,43 +7,101 @@ import LoginScreen from "./screens/LoginScreen";
 import PasswordListScreen from "./screens/PasswordListScreen";
 import CreatePasswordScreen from "./screens/CreatePasswordScreen";
 import ChooseUserLoged from "./screens/ChooseUserLoged";
-import Footer from "./components/General/Footer";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Ionicons } from "@expo/vector-icons";
 
+const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-function AppNavigator({ routeName, setRouteName }) {
+const Tabs = () => {
   return (
-    <>
-      <Stack.Navigator
-        screenOptions={({ route }) => {
-          setRouteName(route.name);
+    <Tab.Navigator
+      screenOptions={{
+        tabBarLabelStyle: { fontSize: 14 },
+        tabBarStyle: { height: 60, paddingBottom: 5 },
+        tabBarActiveTintColor: "#F1BD3D", // Color del texto cuando está seleccionado
+        tabBarInactiveTintColor: "gray",
+        headerTitleAlign: "center",
+        headerStyle: {
+          backgroundColor: "#B49134",
+        },
+        headerTintColor: "#fff",
+        headerTitleStyle: {
+          fontWeight: "bold",
+        },
+      }}
+    >
+      <Tab.Screen
+        name="PasswordList"
+        component={PasswordListScreen}
+        options={{
+          title: "Contraseñas",
+          tabBarLabel: "Contraseñas",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="lock-closed" color={"#F1BD3D"} size={size + 5} />
+          ),
         }}
-      >
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="PasswordList" component={PasswordListScreen} />
-        <Stack.Screen name="Register" component={RegisterScreen} />
-        <Stack.Screen name="CreatePassword" component={CreatePasswordScreen} />
-        <Stack.Screen name="ChooseUserLoged" component={ChooseUserLoged} />
-      </Stack.Navigator>
-      {routeName !== "Login" && routeName !== "Register" && <Footer />}
-    </>
+      />
+      <Tab.Screen
+        name="Cuenta"
+        component={RegisterScreen}
+        options={{
+          title: "Mi Cuenta",
+          tabBarLabel: "Mi Cuenta",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name={"person"} color={"#F1BD3D"} size={size + 5} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
   );
-}
+};
 
 export default function App() {
-  const [routeName, setRouteName] = useState("Login");
-
-  const handleStateChange = (state) => {
-    if (state) {
-      const currentRouteName = state.routes[state.index]?.name;
-      setRouteName(currentRouteName);
-    }
-  };
-
   return (
     <NativeBaseProvider>
-      <NavigationContainer onStateChange={handleStateChange}>
-        <AppNavigator routeName={routeName} setRouteName={setRouteName} />
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerTitleAlign: "center",
+            headerStyle: {
+              backgroundColor: "#B49134",
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          }}
+        >
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{ title: "Iniciar Sesión", headerLeft: null }}
+          />
+          <Stack.Screen
+            name="Tab"
+            component={Tabs}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Register"
+            component={RegisterScreen}
+            options={{ title: "Registrarse", headerLeft: null }}
+          />
+          <Stack.Screen
+            name="CreatePassword"
+            component={CreatePasswordScreen}
+            options={{ title: "Crear Contraseña" }}
+          />
+          <Stack.Screen
+            name="ChooseUserLoged"
+            component={ChooseUserLoged}
+            options={{
+              title: "Usuarios con Sesión Iniciada",
+              headerLeft: null,
+            }}
+          />
+        </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>
   );

@@ -1,15 +1,11 @@
 import React, { useState } from "react";
 import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
 import {
-  Box,
   Center,
   FormControl,
-  Heading,
   VStack,
   Image,
-  Divider,
   Input,
-  Link,
   Button,
   Checkbox,
 } from "native-base";
@@ -100,7 +96,10 @@ export default function CreatePassword({ navigation }) {
     setContraseña("");
     setCreated(true);
     // Navegar a la pantalla de lista de contraseñas o cualquier otra pantalla deseada
-    navigation.navigate("PasswordList", { created: created, userLoged: user });
+    navigation.navigate("Tab", {
+      screen: "PasswordList",
+      params: { created: created, userLoged: user },
+    });
   };
 
   // Handler para generar y establecer una contraseña aleatoria

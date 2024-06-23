@@ -1,18 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { View } from "react-native";
-import {
-  Button,
-  VStack,
-  Divider,
-  Text,
-  Card,
-  Icon,
-  Heading,
-} from "native-base";
+import { VStack, Divider, Heading, Link } from "native-base";
 import { User } from "../types/types";
 import { useRoute } from "@react-navigation/native";
 import { CardComponent } from "../components/General/CardComponent";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
 const ChooseUserLoged = ({ navigation }) => {
   const route = useRoute();
@@ -20,7 +11,10 @@ const ChooseUserLoged = ({ navigation }) => {
   console.log(logedUsers);
 
   const handleLogin = (user) => {
-    navigation.navigate("PasswordList", { userLoged: user });
+    navigation.navigate("Tab", {
+      screen: "PasswordList",
+      params: { userLoged: user },
+    });
   };
 
   return (
@@ -32,7 +26,10 @@ const ChooseUserLoged = ({ navigation }) => {
         space={4}
         alignItems={"center"}
       >
-        <Heading>Cuenta a usar</Heading>
+        <Heading>Cuentas disponibles:</Heading>
+        <Link onPress={() => navigation.navigate("Login")}>
+          Usar otra cuenta
+        </Link>
         <Divider />
         {logedUsers &&
           logedUsers.map((user, index) => (
