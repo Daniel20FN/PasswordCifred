@@ -5,6 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { CardComponent } from "../General/CardComponent";
 import { App, User } from "../../types/types";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function PasswordScreen({
   navigation,
@@ -19,7 +20,7 @@ export default function PasswordScreen({
 }) {
   const [aplicacionesGuardadas, setAplicacionesGuardadas] = useState<App[]>([]);
   // TODO No se actualiza la puta lista en tiempo real
-  useEffect(() => {
+  useFocusEffect(() => {
     const fetchData = async () => {
       const data = await AsyncStorage.getItem("aplicaciones");
       if (data) {
@@ -28,7 +29,7 @@ export default function PasswordScreen({
       }
     };
     fetchData();
-  }, [NuevoItemCreado]);
+  });
 
   const filteredApps = aplicacionesGuardadas.filter((app) =>
     app.nombre.toLowerCase().includes(busqueda?.toLowerCase() || "")

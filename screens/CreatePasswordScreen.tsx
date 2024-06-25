@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
 import {
   Center,
@@ -36,7 +36,7 @@ export default function CreatePassword({ navigation }) {
   const [contraseña, setContraseña] = useState("");
   const [title, setTitle] = useState("");
   const [textAlert, setTextAlert] = useState("");
-  const [created, setCreated] = useState<boolean>(false);
+
   const route = useRoute();
   const user: User = route.params["usuario"];
 
@@ -79,26 +79,32 @@ export default function CreatePassword({ navigation }) {
     nuevaContraseña.push(itemData);
 
     // Guardar el array actualizado en AsyncStorage
-    await AsyncStorage.setItem(
-      "aplicaciones",
-      JSON.stringify(nuevaContraseña)
-    ).then(() => {
-      setTitle("Aplicación guardada ");
-      setTextAlert(
-        "Su aplicación se ha almacenado correctamente, revise su lista cuando no recuerde su contraseña"
-      );
+    if (itemData.contraseña != "" && itemData.nombre != "") {
+      await AsyncStorage.setItem(
+        "aplicaciones",
+        JSON.stringify(nuevaContraseña)
+      ).then(() => {
+        setTitle("Aplicación guardada ");
+        setTextAlert(
+          "Su aplicación se ha almacenado correctamente, revise su lista cuando no recuerde su contraseña"
+        );
+      });
+    } else {
+      setTitle("Los campos no pueden estar vacíos");
+      setTextAlert("Rellene los campos correctamente");
       setIsOpen(true);
-    });
+      return;
+    }
 
     // Limpiar los campos después de registrar
     setAplicacion("");
     setIcono("");
     setContraseña("");
-    setCreated(true);
+
     // Navegar a la pantalla de lista de contraseñas o cualquier otra pantalla deseada
     navigation.navigate("Tab", {
       screen: "PasswordList",
-      params: { created: created, userLoged: user },
+      params: { userLoged: user },
     });
   };
 
