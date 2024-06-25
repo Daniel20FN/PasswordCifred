@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
 import {
   Button,
@@ -18,6 +18,7 @@ import { User } from "../types/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomAlert from "../components/General/CustomAlert";
 import CryptoJS from "crypto-js";
+import { useFocusEffect, useRoute } from "@react-navigation/native";
 
 export default function LoginScreen({ navigation }) {
   const [username, setUsername] = useState("");
@@ -28,39 +29,40 @@ export default function LoginScreen({ navigation }) {
   const [keepLogin, setKeepLogin] = useState(false);
   const [logedUsers, setLogedUsers] = useState<User[]>([]);
   const [logedUser, setLogedUser] = useState<User>(undefined);
-  useEffect(() => {
-    const verifyUserLoged = async () => {
-      try {
-        const usersData = await AsyncStorage.getItem("registros");
-        if (usersData !== null) {
-          const users: User[] = JSON.parse(usersData);
-          const lastUsersLoged = users.filter(
-            (user) => user.keepLogin === true
-          );
-          //console.log(lastUsersLoged);
-          if (!(lastUsersLoged.length == 0)) {
-            if (lastUsersLoged.length > 1) {
-              setLogedUsers(lastUsersLoged);
-              navigation.navigate("ChooseUserLoged", {
-                logedUsers: lastUsersLoged,
-              });
-              console.log("a la pagina para escoger usuario a entrar");
-            } else {
-              setLogedUser(lastUsersLoged[0]);
-              navigation.navigate("Tab", {
-                screen: "PasswordList",
-                params: { userLoged: lastUsersLoged[0] },
-              });
-            }
-          }
-        }
-      } catch (error) {
-        console.error("Error al verificar el usuario logueado:", error);
-      }
-    };
 
-    verifyUserLoged();
-  }, []);
+  const route = useRoute();
+  const params = route.params;
+  const shouldVerifyUser = params !== undefined ? params["shouldReload"] : true;
+  //console.log(shouldVerifyUser);
+  useFocusEffect(
+    useCallback(() => {
+      if (shouldVerifyUser) {
+        const verifyUserLoged = async () => {
+          try {
+            const usersData = await AsyncStorage.getItem("registros");
+            if (usersData !== null) {
+              const users: User[] = JSON.parse(usersData);
+              const lastUsersLoged = users.filter(
+                (user) => user.keepLogin === true
+              );
+              if (!(lastUsersLoged.length == 0)) {
+                if (lastUsersLoged.length >= 1) {
+                  setLogedUsers(lastUsersLoged);
+                  navigation.navigate("ChooseUserLoged", {
+                    logedUsers: lastUsersLoged,
+                  });
+                }
+              }
+            }
+          } catch (error) {
+            console.error("Error al verificar el usuario logueado:", error);
+          }
+        };
+
+        verifyUserLoged();
+      }
+    }, [navigation, shouldVerifyUser])
+  );
 
   const handleLogin = async () => {
     try {

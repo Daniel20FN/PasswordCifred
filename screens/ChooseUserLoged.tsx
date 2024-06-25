@@ -27,7 +27,9 @@ const ChooseUserLoged = ({ navigation }) => {
         alignItems={"center"}
       >
         <Heading>Cuentas disponibles:</Heading>
-        <Link onPress={() => navigation.navigate("Login")}>
+        <Link
+          onPress={() => navigation.navigate("Login", { shouldReload: false })}
+        >
           Usar otra cuenta
         </Link>
         <Divider />
