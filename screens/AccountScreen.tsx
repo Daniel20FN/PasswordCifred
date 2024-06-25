@@ -44,7 +44,11 @@ const CuentaScreen = ({ navigation }) => {
     <View>
       <VStack space={2} p={2}>
         <Box width={"100%"}>
-          <Pressable onPress={() => navigation.navigate("Login")}>
+          <Pressable
+            onPress={() =>
+              navigation.navigate("AccountDataScreen", { userLoged: userLoged })
+            }
+          >
             <Box borderColor={"gray.300"} borderWidth={2} p={3} rounded={10}>
               <Text fontSize={"lg"}>Mis Datos</Text>
             </Box>
