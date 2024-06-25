@@ -8,6 +8,7 @@ import PasswordListScreen from "./screens/PasswordListScreen";
 import CreatePasswordScreen from "./screens/CreatePasswordScreen";
 import ChooseUserLoged from "./screens/ChooseUserLoged";
 import CuentaScreen from "./screens/CuentaScreen";
+import PasswordDetailsScreen from "./screens/PasswordDetailsScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -101,6 +102,11 @@ export default function App() {
             name="CreatePassword"
             component={CreatePasswordScreen}
             options={{ title: "Crear Contraseña" }}
+          />
+           <Stack.Screen
+            name="PasswordDetailsScreen"
+            component={PasswordDetailsScreen}
+            options={{ title: "Detalles de contraseña" }}
           />
           <Stack.Screen
             name="ChooseUserLoged"

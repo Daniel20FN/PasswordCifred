@@ -48,7 +48,10 @@ export default function PasswordScreen({
                 useButton
                 iconoDerecha={"visibility"}
                 onPress={() => {
-                  navigation.navigate("CreatePassword", { usuario: user });
+                  navigation.navigate("PasswordDetailsScreen", {
+                    usuario: user,
+                    App: app,
+                  });
                 }}
               />
             )
