@@ -13,18 +13,18 @@ export default function PasswordScreen({
   user,
 }: {
   navigation;
-  NuevoItemCreado: object;
+  NuevoItemCreado: boolean;
   busqueda: string | undefined;
   user: User;
 }) {
   const [aplicacionesGuardadas, setAplicacionesGuardadas] = useState<App[]>([]);
-
+  // TODO No se actualiza la puta lista en tiempo real
   useEffect(() => {
     const fetchData = async () => {
       const data = await AsyncStorage.getItem("aplicaciones");
       if (data) {
         setAplicacionesGuardadas(JSON.parse(data));
-        console.log(aplicacionesGuardadas);
+        //console.log(aplicacionesGuardadas);
       }
     };
     fetchData();
@@ -47,7 +47,7 @@ export default function PasswordScreen({
                 useButton
                 iconoDerecha={"visibility"}
                 onPress={() => {
-                  navigation.navigate("CreatePassword");
+                  navigation.navigate("CreatePassword", { usuario: user });
                 }}
               />
             )

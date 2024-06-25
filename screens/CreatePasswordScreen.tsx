@@ -1,15 +1,11 @@
 import React, { useState } from "react";
 import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
 import {
-  Box,
   Center,
   FormControl,
-  Heading,
   VStack,
   Image,
-  Divider,
   Input,
-  Link,
   Button,
   Checkbox,
 } from "native-base";
@@ -17,6 +13,7 @@ import { App, User } from "../types/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomAlert from "../components/General/CustomAlert";
 import { useRoute } from "@react-navigation/native";
+import CryptoJS from "crypto-js";
 
 function generateSecurePassword(length = 20) {
   const charset =
@@ -39,9 +36,9 @@ export default function CreatePassword({ navigation }) {
   const [contraseña, setContraseña] = useState("");
   const [title, setTitle] = useState("");
   const [textAlert, setTextAlert] = useState("");
-  const [created, setCreated] = useState(false);
+  const [created, setCreated] = useState<boolean>(false);
   const route = useRoute();
-  const user = route.params["nombreUsuario"];
+  const user: User = route.params["usuario"];
 
   const handleNuevoItem = async () => {
     // Crear un objeto con los datos de la contraseña
@@ -49,7 +46,7 @@ export default function CreatePassword({ navigation }) {
       icon: icono,
       nombre: aplicacion,
       contraseña: contraseña,
-      username: user,
+      username: user.username,
     };
 
     // Obtener los datos de registro guardados en AsyncStorage
@@ -63,7 +60,7 @@ export default function CreatePassword({ navigation }) {
 
     // Verificar si la aplicación ya existe
     const itemExistente = nuevaContraseña.some(
-      (e) => e.nombre === itemData.nombre
+      (e) => e.nombre === itemData.nombre && e.username === itemData.username
     );
 
     if (itemExistente) {
@@ -77,6 +74,8 @@ export default function CreatePassword({ navigation }) {
     }
 
     // Agregar el nuevo registro al array de registros
+    const hash = CryptoJS.SHA256(contraseña).toString();
+    itemData.contraseña = hash;
     nuevaContraseña.push(itemData);
 
     // Guardar el array actualizado en AsyncStorage
@@ -95,9 +94,12 @@ export default function CreatePassword({ navigation }) {
     setAplicacion("");
     setIcono("");
     setContraseña("");
-    setCreated(!created);
+    setCreated(true);
     // Navegar a la pantalla de lista de contraseñas o cualquier otra pantalla deseada
-    navigation.navigate("PasswordList", { created: created });
+    navigation.navigate("Tab", {
+      screen: "PasswordList",
+      params: { created: created, userLoged: user },
+    });
   };
 
   // Handler para generar y establecer una contraseña aleatoria
