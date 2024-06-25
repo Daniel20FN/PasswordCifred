@@ -26,54 +26,64 @@ export default function RegisterScreen({ navigation }) {
 
   const handleRegister = async () => {
     try {
-      const hash = CryptoJS.SHA256(password).toString();
+      if (
+        nombre.trim() !== "" &&
+        username.trim() != "" &&
+        password.trim() != ""
+      ) {
+        const hash = CryptoJS.SHA256(password).toString();
 
-      const userData: User = {
-        nombre,
-        username,
-        password: hash,
-        keepLogin: false,
-        isActive: false,
-      };
+        const userData: User = {
+          nombre,
+          username,
+          password: hash,
+          keepLogin: false,
+          isActive: false,
+        };
 
-      // Obtener los datos de registro guardados en AsyncStorage
-      const registrosAnteriores = await AsyncStorage.getItem("registros");
-      let nuevosRegistros: User[] = [];
+        // Obtener los datos de registro guardados en AsyncStorage
+        const registrosAnteriores = await AsyncStorage.getItem("registros");
+        let nuevosRegistros: User[] = [];
 
-      if (registrosAnteriores !== null) {
-        // Si hay datos anteriores, convertirlos de JSON a array
-        nuevosRegistros = JSON.parse(registrosAnteriores);
-      }
+        if (registrosAnteriores !== null) {
+          // Si hay datos anteriores, convertirlos de JSON a array
+          nuevosRegistros = JSON.parse(registrosAnteriores);
+        }
 
-      //Comprobar que el usuario no esta registrado ya
-      const usuarioExistente = nuevosRegistros.find(
-        (user) => user.username === username
-      );
-
-      if (usuarioExistente) {
-        setIsOpen(true);
-        setTextAlert(
-          "Ya existe un usuario con estas credenciales, por favor cree uno nuevo o inicie sesion."
+        //Comprobar que el usuario no esta registrado ya
+        const usuarioExistente = nuevosRegistros.find(
+          (user) => user.username === username
         );
+
+        if (usuarioExistente) {
+          setIsOpen(true);
+          setTextAlert(
+            "Ya existe un usuario con estas credenciales, por favor cree uno nuevo o inicie sesion."
+          );
+        } else {
+          // Agregar el nuevo registro al array de registros
+          nuevosRegistros.push(userData);
+
+          // Guardar el array actualizado en AsyncStorage
+          await AsyncStorage.setItem(
+            "registros",
+            JSON.stringify(nuevosRegistros)
+          );
+
+          console.log(nuevosRegistros);
+
+          // Limpiar los campos después de registrar
+          setNombre("");
+          setUsername("");
+          setPassword("");
+
+          // Navegar a la pantalla de lista de contraseñas o cualquier otra pantalla deseada
+          navigation.navigate("Login");
+        }
       } else {
-        // Agregar el nuevo registro al array de registros
-        nuevosRegistros.push(userData);
-
-        // Guardar el array actualizado en AsyncStorage
-        await AsyncStorage.setItem(
-          "registros",
-          JSON.stringify(nuevosRegistros)
-        );
-
-        console.log(nuevosRegistros);
-
-        // Limpiar los campos después de registrar
-        setNombre("");
-        setUsername("");
-        setPassword("");
-
-        // Navegar a la pantalla de lista de contraseñas o cualquier otra pantalla deseada
-        navigation.navigate("Login");
+        setIsOpen(true);
+        setTextAlert("Rellene todos los campos por favor.");
+        setTitle("Campos Vacios");
       }
     } catch (error) {
       console.error("Error al registrar usuario:", error);
