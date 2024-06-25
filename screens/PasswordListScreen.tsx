@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
 import {
   Divider,
@@ -14,6 +14,16 @@ import { MaterialIcons } from "@expo/vector-icons";
 import PasswordList from "../components/PasswordComponents/PasswordList";
 import { useRoute } from "@react-navigation/native";
 import { User } from "../types/types";
+
+let currentUser = null;
+
+function setCurrentUser(user: User) {
+  currentUser = user;
+}
+
+export function getCurrentUser() {
+  return currentUser;
+}
 
 export default function PasswordListScreen({ navigation }) {
   const guestUser: User = {
@@ -32,6 +42,14 @@ export default function PasswordListScreen({ navigation }) {
     parametros != undefined ? parametros["created"] : false;
   const UsuarioLogeado: User =
     parametros != undefined ? parametros["userLoged"] : guestUser;
+
+  useEffect(() => {
+    if (parametros && parametros["userLoged"]) {
+      setCurrentUser(parametros["userLoged"]);
+    } else {
+      setCurrentUser(guestUser);
+    }
+  }, [parametros]);
 
   console.log("Usuario en PasswordScree " + UsuarioLogeado.username);
   console.log("Created en PasswordScreem " + NuevoItemCreado);

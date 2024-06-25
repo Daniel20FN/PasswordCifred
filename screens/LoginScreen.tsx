@@ -49,7 +49,7 @@ export default function LoginScreen({ navigation }) {
               setLogedUser(lastUsersLoged[0]);
               navigation.navigate("Tab", {
                 screen: "PasswordList",
-                params: { userLoged: logedUser },
+                params: { userLoged: lastUsersLoged[0] },
               });
             }
           }
