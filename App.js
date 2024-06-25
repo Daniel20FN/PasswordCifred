@@ -7,12 +7,12 @@ import LoginScreen from "./screens/LoginScreen";
 import PasswordListScreen from "./screens/PasswordListScreen";
 import CreatePasswordScreen from "./screens/CreatePasswordScreen";
 import ChooseUserLoged from "./screens/ChooseUserLoged";
-<<<<<<< HEAD
+
 import CuentaScreen from "./screens/CuentaScreen";
 import PasswordDetailsScreen from "./screens/PasswordDetailsScreen";
-=======
+
 import CuentaScreen from "./screens/AccountScreen";
->>>>>>> cd5f8e3d647e6b572117ec14710d4c5e81f0e2f6
+
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import AccountDataScreen from "./screens/AccountDataScreen";
