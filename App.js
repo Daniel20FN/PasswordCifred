@@ -10,6 +10,7 @@ import ChooseUserLoged from "./screens/ChooseUserLoged";
 import CuentaScreen from "./screens/AccountScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
+import AccountDataScreen from "./screens/AccountDataScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -109,6 +110,15 @@ export default function App() {
               title: "Usuarios con Sesión Iniciada",
               headerLeft: null,
               headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="AccountDataScreen"
+            component={AccountDataScreen}
+            options={{
+              title: "Mis Datos",
+              headerLeft: null,
+              headerShown: true,
             }}
           />
         </Stack.Navigator>
