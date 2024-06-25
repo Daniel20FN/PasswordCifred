@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Pressable, View } from "react-native";
-import { VStack, Text, Box, Heading, Center } from "native-base";
+import { VStack, Text, Box, Heading, Center, Divider } from "native-base";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { User } from "../types/types";
 import { getCurrentUser } from "./PasswordListScreen";
@@ -16,6 +16,7 @@ const CuentaScreen = ({ navigation }) => {
   }, [navigation]);
 
   const handleChangeAccount = () => {
+    navigation.navigate("Login", { shouldReload: true });
     console.log("Cambiando de cuenta....");
   };
 
@@ -72,6 +73,7 @@ const CuentaScreen = ({ navigation }) => {
           </Pressable>
         </Box>
       </VStack>
+      <Divider />
       <Center>
         <Text fontSize={"md"}>
           Usuario Actual: {userLoged && userLoged.username}
