@@ -7,7 +7,7 @@ import LoginScreen from "./screens/LoginScreen";
 import PasswordListScreen from "./screens/PasswordListScreen";
 import CreatePasswordScreen from "./screens/CreatePasswordScreen";
 import ChooseUserLoged from "./screens/ChooseUserLoged";
-import CuentaScreen from "./screens/CuentaScreen";
+import CuentaScreen from "./screens/AccountScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
