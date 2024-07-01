@@ -14,7 +14,9 @@ import {
   Checkbox,
   Image,
   HStack,
+  Icon,
 } from "native-base";
+import { MaterialIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { App, User } from "../types/types";
 import { getCurrentUser } from "./PasswordListScreen";
@@ -52,11 +54,7 @@ const PasswordDetailsScreen = ({ navigation }) => {
           paddingRight={50}
         >
           <Center shadow={3} marginBottom={5}>
-            <Image
-              source={require("../assets/LogoTransparenteSinLetras.png")}
-              alt="Logo Encrypt"
-              size="xl"
-            />
+            <Icon as={MaterialIcons} name={app.icon} size="2xl" color="black" />
           </Center>
           <Center>
             <Text fontSize={"2xl"}>{app.nombre}</Text>
