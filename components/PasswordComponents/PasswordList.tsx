@@ -19,7 +19,6 @@ export default function PasswordScreen({
   user: User;
 }) {
   const [aplicacionesGuardadas, setAplicacionesGuardadas] = useState<App[]>([]);
-  // TODO No se actualiza la puta lista en tiempo real
   useFocusEffect(() => {
     const fetchData = async () => {
       const data = await AsyncStorage.getItem("aplicaciones");

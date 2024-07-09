@@ -78,7 +78,7 @@ export default function RegisterScreen({ navigation }) {
           setPassword("");
 
           // Navegar a la pantalla de lista de contraseñas o cualquier otra pantalla deseada
-          navigation.navigate("Login");
+          navigation.navigate("Login", { shouldReload: false });
         }
       } else {
         setIsOpen(true);
