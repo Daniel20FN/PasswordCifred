@@ -15,6 +15,7 @@ import {
   Image,
   HStack,
   Icon,
+  IconButton,
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -60,6 +61,9 @@ const PasswordDetailsScreen = ({ navigation }) => {
             <Text fontSize={"2xl"}>{app.nombre}</Text>
             <Text fontSize={"2xl"}>{app.contraseña}</Text>
           </Center>
+          <IconButton
+            icon={<Icon as={MaterialIcons} name="delete" color="black" />}
+          />
         </VStack>
       </View>
     </TouchableWithoutFeedback>
