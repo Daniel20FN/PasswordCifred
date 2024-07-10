@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
 import {
+  Text,
   Center,
   FormControl,
   VStack,

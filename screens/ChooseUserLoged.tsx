@@ -40,7 +40,7 @@ const ChooseUserLoged = ({ navigation }) => {
               aplicacion={`${user.username} (${user.nombre})`}
               icono={"person-outline"}
               useButton
-              iconoDerecha={"keyboard-double-arrow-right"}
+              iconoDerecha={"double-arrow"}
               onPress={() => handleLogin(user)}
             />
           ))}
