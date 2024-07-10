@@ -18,7 +18,6 @@ import CustomAlert from "../components/General/CustomAlert";
 import { useRoute } from "@react-navigation/native";
 import CryptoJS from "crypto-js";
 
-// TODO : Terminar Comprobacion de espacios vacios
 const AccountDataScreen = () => {
   const [newName, setNewName] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -41,31 +40,46 @@ const AccountDataScreen = () => {
       );
 
       if (userToFind) {
-        if (newKeepLogin != userToFind.keepLogin) {
-          userToFind.keepLogin = newKeepLogin;
-          dataChanged.push("Mantener Sesion iniciada");
-        }
+        if (newName.trim() != "") {
+          if (newKeepLogin != userToFind.keepLogin) {
+            userToFind.keepLogin = newKeepLogin;
+            dataChanged.push("Mantener Sesion iniciada");
+          }
 
-        if (newName != userToFind.nombre) {
-          userToFind.nombre = newName;
-          dataChanged.push("Nombre");
-        }
+          if (newName != userToFind.nombre && newName != " ") {
+            userToFind.nombre = newName;
+            dataChanged.push("Nombre");
+          } else {
+            setIsOpen(true);
+            setTitle("Campo Incorrecto (Nombre)");
+            setTextAlert("Por favor ingrese un Nombre valido.");
+          }
 
-        if (CryptoJS.SHA256(newPassword).toString() != userToFind.password) {
-          userToFind.password = CryptoJS.SHA256(newPassword).toString();
-          dataChanged.push("Contraseña");
+          if (
+            CryptoJS.SHA256(newPassword).toString() != userToFind.password &&
+            newPassword.trim() != ""
+          ) {
+            userToFind.password = CryptoJS.SHA256(newPassword).toString();
+            dataChanged.push("Contraseña");
+          } else {
+            setIsOpen(true);
+            setTitle("Campo Incorrecto (Contraseña)");
+            setTextAlert("Por favor ingrese una Contraseña valida.");
+          }
+          await AsyncStorage.setItem("registros", JSON.stringify(users));
+          setIsOpen(true);
+          setTitle("Cambios guardados correctamente.");
+          setTextAlert(
+            "Se ha modificado correctamente los siguientes datos: " +
+              dataChanged.toString()
+          );
+        } else {
+          setIsOpen(true);
+          setTextAlert("Campos incorrectos, intentelo de nuevo.");
         }
-        await AsyncStorage.setItem("registros", JSON.stringify(users));
-        setIsOpen(true);
-        setTitle("Cambios guardados correctamente.");
-        setTextAlert(
-          "Se ha modificado correctamente los siguientes datos: " +
-            dataChanged.toString()
-        );
       } else {
         setTextAlert("Error al encontrar al usuario");
         setIsOpen(true);
-        //Alert.alert("Error", "Usuario o Contraseña incorrectos.");
       }
     } else {
       //Alert.alert("Error", "No hay usuarios registrados.");
