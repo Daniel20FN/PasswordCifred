@@ -18,7 +18,6 @@ import CustomAlert from "../components/General/CustomAlert";
 import { useRoute } from "@react-navigation/native";
 import CryptoJS from "crypto-js";
 
-// TODO : Terminar Comprobacion de espacios vacios
 const AccountDataScreen = () => {
   const [newName, setNewName] = useState("");
   const [newPassword, setNewPassword] = useState("");
