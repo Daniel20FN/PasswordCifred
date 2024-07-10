@@ -180,6 +180,14 @@ export default function CreatePassword({ navigation }) {
               Usar Contraseña Aleatoria
             </Checkbox>
             <Button
+              onPress={() => navigation.navigate("LogoPickerScreen")}
+              marginTop={3}
+              size="sm"
+              bgColor="#B49134"
+            >
+              Logo
+            </Button>
+            <Button
               onPress={handleNuevoItem}
               marginTop={3}
               size="sm"

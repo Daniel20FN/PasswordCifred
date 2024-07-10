@@ -12,6 +12,7 @@ import AccountScreen from "./screens/AccountScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import AccountDataScreen from "./screens/AccountDataScreen";
+import LogoPickerScreen from "./components/PasswordComponents/LogoPicker";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -108,6 +109,11 @@ export default function App() {
             name="PasswordDetailsScreen"
             component={PasswordDetailsScreen}
             options={{ title: "Detalles de contraseña" }}
+          />
+          <Stack.Screen
+            name="LogoPickerScreen"
+            component={LogoPickerScreen}
+            options={{ title: "Seleccionar Logo" }}
           />
           <Stack.Screen
             name="ChooseUserLoged"
