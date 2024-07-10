@@ -1,11 +1,14 @@
 import * as React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { IconPicker } from "@grassper/react-native-icon-picker";
+import { useRoute } from "@react-navigation/native";
+import { User } from "../../types/types";
 
-export default function LogoPickerScreen({ navigation }) {
+export default function LogoPickerScreen({ navigation }: { navigation }) {
+  const route = useRoute();
+  const user: User = route.params["usuario"];
   const handleSubmit = (id, iconName, iconSet, iconColor, backgroundColor) => {
-    navigation.goBack({ icono: iconName });
-    console.log({ id, iconName, iconSet, iconColor, backgroundColor });
+    navigation.navigate("CreatePassword", { usuario: user, icon: iconSet });
   };
 
   return (

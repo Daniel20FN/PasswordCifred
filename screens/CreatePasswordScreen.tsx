@@ -14,8 +14,8 @@ import { App, User } from "../types/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomAlert from "../components/General/CustomAlert";
 import { useRoute } from "@react-navigation/native";
-import CryptoJS from "crypto-js";
-import Config from "react-native-config";
+import CryptoJS, { enc } from "crypto-js";
+import NativeConfig from "react-native-config";
 
 function generateSecurePassword(length = 20) {
   const charset =
@@ -34,13 +34,17 @@ export default function CreatePassword({ navigation }) {
   const [useGeneratedPassword, setUseGeneratedPassword] = useState(false);
 
   const [aplicacion, setAplicacion] = useState("");
-  const [icono, setIcono] = useState("");
+
   const [contraseña, setContraseña] = useState("");
   const [title, setTitle] = useState("");
   const [textAlert, setTextAlert] = useState("");
 
+  const encryptionKey = NativeConfig.ENCRYPTION_KEY;
   const route = useRoute();
   const user: User = route.params["usuario"];
+  const icono = route.params["icon"];
+  console.log(icono);
+  console.log(encryptionKey);
 
   const handleNuevoItem = async () => {
     // Crear un objeto con los datos de la contraseña
@@ -50,7 +54,6 @@ export default function CreatePassword({ navigation }) {
       contraseña: contraseña,
       username: user.username,
     };
-    console.log("hola");
 
     // Obtener los datos de registro guardados en AsyncStorage
     const contraseñasAnteriores = await AsyncStorage.getItem("aplicaciones");
@@ -72,16 +75,16 @@ export default function CreatePassword({ navigation }) {
       setTextAlert("Esta aplicación ya está creada");
       setIsOpen(true);
       setAplicacion("");
-      setIcono("");
       setContraseña("");
       return "Error, ya existe";
     }
     console.log("key");
-    console.log(Config.ENCRYPTION_KEY);
+
+    console.log(encryptionKey);
     // Agregar el nuevo registro al array de registros
     const hash = CryptoJS.AES.encrypt(
       contraseña,
-      Config.ENCRYPTION_KEY
+      NativeConfig.ENCRYPTION_KEY
     ).toString();
     itemData.contraseña = hash;
     nuevaContraseña.push(itemData);
@@ -107,7 +110,6 @@ export default function CreatePassword({ navigation }) {
 
     // Limpiar los campos después de registrar
     setAplicacion("");
-    setIcono("");
     setContraseña("");
 
     // Navegar a la pantalla de lista de contraseñas o cualquier otra pantalla deseada
@@ -188,7 +190,9 @@ export default function CreatePassword({ navigation }) {
               Usar Contraseña Aleatoria
             </Checkbox>
             <Button
-              onPress={() => navigation.navigate("LogoPickerScreen")}
+              onPress={() =>
+                navigation.navigate("LogoPickerScreen", { usuario: user })
+              }
               marginTop={3}
               size="sm"
               bgColor="#B49134"
