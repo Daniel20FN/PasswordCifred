@@ -14,6 +14,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomAlert from "../components/General/CustomAlert";
 import { useRoute } from "@react-navigation/native";
 import CryptoJS from "crypto-js";
+import Config from "react-native-config";
 
 function generateSecurePassword(length = 20) {
   const charset =
@@ -48,10 +49,12 @@ export default function CreatePassword({ navigation }) {
       contraseña: contraseña,
       username: user.username,
     };
+    console.log("hola");
 
     // Obtener los datos de registro guardados en AsyncStorage
     const contraseñasAnteriores = await AsyncStorage.getItem("aplicaciones");
     let nuevaContraseña: App[] = [];
+    console.log(itemData);
 
     if (contraseñasAnteriores !== null) {
       // Si hay datos anteriores, convertirlos de JSON a array
@@ -70,13 +73,18 @@ export default function CreatePassword({ navigation }) {
       setAplicacion("");
       setIcono("");
       setContraseña("");
-      return;
+      return "Error, ya existe";
     }
-
+    console.log("key");
+    console.log(Config.ENCRYPTION_KEY);
     // Agregar el nuevo registro al array de registros
-    const hash = CryptoJS.SHA256(contraseña).toString();
+    const hash = CryptoJS.AES.encrypt(
+      contraseña,
+      Config.ENCRYPTION_KEY
+    ).toString();
     itemData.contraseña = hash;
     nuevaContraseña.push(itemData);
+    console.log(hash);
 
     // Guardar el array actualizado en AsyncStorage
     if (itemData.contraseña != "" && itemData.nombre != "") {
