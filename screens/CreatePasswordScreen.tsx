@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+import { ENCRYPTION_KEY } from '@env'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useRoute } from '@react-navigation/native'
 import CryptoJS from 'crypto-js'
@@ -12,7 +14,6 @@ import {
 } from 'native-base'
 import React, { useState } from 'react'
 import { Keyboard, TouchableWithoutFeedback, View } from 'react-native'
-import NativeConfig from 'react-native-config'
 import CustomAlert from '../components/General/CustomAlert'
 import { App, User } from '../types/types'
 
@@ -27,7 +28,6 @@ function generateSecurePassword(length = 20) {
   return password
 }
 
-// eslint-disable-next-line react/prop-types
 export default function CreatePassword({ navigation }) {
   const [isOpen, setIsOpen] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
@@ -39,12 +39,12 @@ export default function CreatePassword({ navigation }) {
   const [title, setTitle] = useState('')
   const [textAlert, setTextAlert] = useState('')
 
-  const encryptionKey = NativeConfig.ENCRYPTION_KEY
   const route = useRoute()
   const user: User = route.params['usuario']
   const icono = route.params['icon']
+
+  console.log(ENCRYPTION_KEY)
   console.log(icono)
-  console.log(encryptionKey)
 
   const handleNuevoItem = async () => {
     // Crear un objeto con los datos de la contraseña
@@ -67,7 +67,7 @@ export default function CreatePassword({ navigation }) {
 
     // Verificar si la aplicación ya existe
     const itemExistente = nuevaContraseña.some(
-      (e) => e.nombre === itemData.nombre && e.username === itemData.username
+      (e) => e.nombre === itemData.nombre && e.username === itemData.username,
     )
 
     if (itemExistente) {
@@ -80,12 +80,9 @@ export default function CreatePassword({ navigation }) {
     }
     console.log('key')
 
-    console.log(encryptionKey)
+    console.log(ENCRYPTION_KEY)
     // Agregar el nuevo registro al array de registros
-    const hash = CryptoJS.AES.encrypt(
-      contraseña,
-      NativeConfig.ENCRYPTION_KEY
-    ).toString()
+    const hash = CryptoJS.AES.encrypt(contraseña, ENCRYPTION_KEY).toString()
     itemData.contraseña = hash
     nuevaContraseña.push(itemData)
     console.log(hash)
@@ -94,11 +91,11 @@ export default function CreatePassword({ navigation }) {
     if (itemData.contraseña != '' && itemData.nombre != '') {
       await AsyncStorage.setItem(
         'aplicaciones',
-        JSON.stringify(nuevaContraseña)
+        JSON.stringify(nuevaContraseña),
       ).then(() => {
         setTitle('Aplicación guardada ')
         setTextAlert(
-          'Su aplicación se ha almacenado correctamente, revise su lista cuando no recuerde su contraseña'
+          'Su aplicación se ha almacenado correctamente, revise su lista cuando no recuerde su contraseña',
         )
       })
     } else {
