@@ -14,6 +14,7 @@ import {
 } from 'native-base'
 import React, { useState } from 'react'
 import { Keyboard, TouchableWithoutFeedback, View } from 'react-native'
+import 'react-native-get-random-values'
 import CustomAlert from '../components/General/CustomAlert'
 import { App, User } from '../types/types'
 
@@ -43,7 +44,6 @@ export default function CreatePassword({ navigation }) {
   const user: User = route.params['usuario']
   const icono = route.params['icon']
 
-  console.log(ENCRYPTION_KEY)
   console.log(icono)
   console.log(ENCRYPTION_KEY)
 
@@ -79,14 +79,18 @@ export default function CreatePassword({ navigation }) {
       setContraseña('')
       return 'Error, ya existe'
     }
-    console.log('key')
 
+    console.log('key')
     console.log(ENCRYPTION_KEY)
+    console.log(contraseña)
     // Agregar el nuevo registro al array de registros
-    const hash = CryptoJS.AES.encrypt(contraseña, ENCRYPTION_KEY).toString()
+    const hash = CryptoJS.AES.encrypt(
+      JSON.stringify(contraseña),
+      ENCRYPTION_KEY,
+    ).toString()
     itemData.contraseña = hash
     nuevaContraseña.push(itemData)
-    console.log(hash)
+    console.log('contrasena hasheada: ' + hash)
 
     // Guardar el array actualizado en AsyncStorage
     if (itemData.contraseña != '' && itemData.nombre != '') {
