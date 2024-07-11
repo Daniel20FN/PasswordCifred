@@ -45,6 +45,7 @@ export default function CreatePassword({ navigation }) {
 
   console.log(ENCRYPTION_KEY)
   console.log(icono)
+  console.log(ENCRYPTION_KEY)
 
   const handleNuevoItem = async () => {
     // Crear un objeto con los datos de la contraseña

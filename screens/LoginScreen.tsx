@@ -47,7 +47,7 @@ export default function LoginScreen({ navigation }) {
             if (usersData !== null) {
               const users: User[] = JSON.parse(usersData)
               const lastUsersLoged = users.filter(
-                (user) => user.keepLogin === true
+                (user) => user.keepLogin === true,
               )
               if (!(lastUsersLoged.length == 0)) {
                 if (lastUsersLoged.length >= 1) {
@@ -66,7 +66,7 @@ export default function LoginScreen({ navigation }) {
 
         verifyUserLoged()
       }
-    }, [navigation, shouldVerifyUser])
+    }, [navigation, shouldVerifyUser]),
   )
 
   const handleLogin = async () => {
@@ -78,7 +78,7 @@ export default function LoginScreen({ navigation }) {
         const hash = CryptoJS.SHA256(password).toString()
 
         const userToFind = users.find(
-          (user) => user.username === username && user.password === hash
+          (user) => user.username === username && user.password === hash,
         )
 
         if (userToFind) {
