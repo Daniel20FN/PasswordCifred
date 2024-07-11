@@ -1,121 +1,127 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
+/* eslint-disable react/prop-types */
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useFocusEffect, useRoute } from '@react-navigation/native'
+import CryptoJS from 'crypto-js'
 import {
   Button,
   Center,
-  VStack,
-  Image,
-  FormControl,
-  Input,
-  Heading,
   Divider,
+  FormControl,
+  Heading,
+  HStack,
+  Image,
+  Input,
   Link,
   Switch,
-  HStack,
   Text,
-} from "native-base";
-import { User } from "../types/types";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import CustomAlert from "../components/General/CustomAlert";
-import CryptoJS from "crypto-js";
-import { useFocusEffect, useRoute } from "@react-navigation/native";
+  VStack,
+} from 'native-base'
+import React, { useCallback, useState } from 'react'
+import { Keyboard, TouchableWithoutFeedback, View } from 'react-native'
+import CustomAlert from '../components/General/CustomAlert'
+import { User } from '../types/types'
 
 export default function LoginScreen({ navigation }) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
-  const [title, setTitle] = useState("Error al Iniciar Sesion");
-  const [textAlert, setTextAlert] = useState("");
-  const [keepLogin, setKeepLogin] = useState(false);
-  const [logedUsers, setLogedUsers] = useState<User[]>([]);
-  const [logedUser, setLogedUser] = useState<User>(undefined);
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [isOpen, setIsOpen] = useState(false)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [title, setTitle] = useState('Error al Iniciar Sesion')
+  const [textAlert, setTextAlert] = useState('')
+  const [keepLogin, setKeepLogin] = useState(false)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [logedUsers, setLogedUsers] = useState<User[]>([])
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [logedUser, setLogedUser] = useState<User>(undefined)
 
-  const route = useRoute();
-  const params = route.params;
-  const shouldVerifyUser = params !== undefined ? params["shouldReload"] : true;
+  const route = useRoute()
+  const params = route.params
+  const shouldVerifyUser = params !== undefined ? params['shouldReload'] : true
   //console.log(shouldVerifyUser);
   useFocusEffect(
     useCallback(() => {
       if (shouldVerifyUser) {
         const verifyUserLoged = async () => {
           try {
-            const usersData = await AsyncStorage.getItem("registros");
+            const usersData = await AsyncStorage.getItem('registros')
             if (usersData !== null) {
-              const users: User[] = JSON.parse(usersData);
+              const users: User[] = JSON.parse(usersData)
               const lastUsersLoged = users.filter(
                 (user) => user.keepLogin === true
-              );
+              )
               if (!(lastUsersLoged.length == 0)) {
                 if (lastUsersLoged.length >= 1) {
-                  setLogedUsers(lastUsersLoged);
-                  navigation.navigate("ChooseUserLoged", {
+                  setLogedUsers(lastUsersLoged)
+
+                  navigation.navigate('ChooseUserLoged', {
                     logedUsers: lastUsersLoged,
-                  });
+                  })
                 }
               }
             }
           } catch (error) {
-            console.error("Error al verificar el usuario logueado:", error);
+            console.error('Error al verificar el usuario logueado:', error)
           }
-        };
+        }
 
-        verifyUserLoged();
+        verifyUserLoged()
       }
     }, [navigation, shouldVerifyUser])
-  );
+  )
 
   const handleLogin = async () => {
     try {
-      const usersData = await AsyncStorage.getItem("registros");
+      const usersData = await AsyncStorage.getItem('registros')
       if (usersData !== null) {
-        const users: User[] = JSON.parse(usersData);
+        const users: User[] = JSON.parse(usersData)
 
-        const hash = CryptoJS.SHA256(password).toString();
+        const hash = CryptoJS.SHA256(password).toString()
 
         const userToFind = users.find(
           (user) => user.username === username && user.password === hash
-        );
+        )
 
         if (userToFind) {
-          setUsername("");
-          setPassword("");
+          setUsername('')
+          setPassword('')
 
           //console.log(keepLogin);
           if (keepLogin) {
-            userToFind.keepLogin = keepLogin;
+            userToFind.keepLogin = keepLogin
           }
-          userToFind.isActive = true;
+          userToFind.isActive = true
 
-          await AsyncStorage.setItem("registros", JSON.stringify(users));
+          await AsyncStorage.setItem('registros', JSON.stringify(users))
 
-          setLogedUser(userToFind);
-          navigation.navigate("Tab", {
-            screen: "PasswordList",
+          setLogedUser(userToFind)
+
+          navigation.navigate('Tab', {
+            screen: 'PasswordList',
             params: { userLoged: userToFind },
-          });
+          })
         } else {
-          setTextAlert("Usuario o Contraseña incorrectos.");
-          setIsOpen(true);
-          setUsername("");
-          setPassword("");
+          setTextAlert('Usuario o Contraseña incorrectos.')
+          setIsOpen(true)
+          setUsername('')
+          setPassword('')
           //Alert.alert("Error", "Usuario o Contraseña incorrectos.");
         }
       } else {
         //Alert.alert("Error", "No hay usuarios registrados.");
-        setIsOpen(true);
-        setUsername("");
-        setPassword("");
-        setTextAlert("No hay usuarios registrados.");
+        setIsOpen(true)
+        setUsername('')
+        setPassword('')
+        setTextAlert('No hay usuarios registrados.')
       }
     } catch (error) {
-      console.log("Error al Iniciar Sesion");
+      console.log('Error al Iniciar Sesion')
     }
-  };
+  }
 
   return (
     <TouchableWithoutFeedback
       onPress={() => {
-        Keyboard.dismiss();
+        Keyboard.dismiss()
       }}
     >
       <View>
@@ -128,14 +134,14 @@ export default function LoginScreen({ navigation }) {
         <VStack
           width="100%"
           height="100%"
-          justifyContent={"center"}
+          justifyContent={'center'}
           space={4}
           paddingLeft={50}
           paddingRight={50}
         >
           <Center shadow={3} marginBottom={5}>
             <Image
-              source={require("../assets/LogoTransparente.png")}
+              source={require('../assets/LogoTransparente.png')}
               alt="Logo Encrypt"
               size="xl"
             />
@@ -160,7 +166,7 @@ export default function LoginScreen({ navigation }) {
                 onThumbColor="orange.500"
                 offThumbColor="red.500"
                 onValueChange={(e) => {
-                  setKeepLogin(e);
+                  setKeepLogin(e)
                 }}
               />
             </HStack>
@@ -173,13 +179,13 @@ export default function LoginScreen({ navigation }) {
               Entrar
             </Button>
             <Center marginTop={2}>
-              <Link onPress={() => navigation.navigate("Register")}>
+              <Link onPress={() => navigation.navigate('Register')}>
                 Añadir Cuenta
               </Link>
               <Link
                 onPress={() =>
-                  navigation.navigate("Tab", {
-                    screen: "PasswordList",
+                  navigation.navigate('Tab', {
+                    screen: 'PasswordList',
                   })
                 }
               >
@@ -190,5 +196,5 @@ export default function LoginScreen({ navigation }) {
         </VStack>
       </View>
     </TouchableWithoutFeedback>
-  );
+  )
 }

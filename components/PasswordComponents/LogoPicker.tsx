@@ -1,15 +1,16 @@
-import * as React from "react";
-import { Text, View, StyleSheet } from "react-native";
-import { IconPicker } from "@grassper/react-native-icon-picker";
-import { useRoute } from "@react-navigation/native";
-import { User } from "../../types/types";
+import { IconPicker } from '@grassper/react-native-icon-picker'
+import { useRoute } from '@react-navigation/native'
+import * as React from 'react'
+import { StyleSheet, View } from 'react-native'
+import { User } from '../../types/types'
 
 export default function LogoPickerScreen({ navigation }: { navigation }) {
-  const route = useRoute();
-  const user: User = route.params["usuario"];
+  const route = useRoute()
+  const user: User = route.params['usuario']
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleSubmit = (id, iconName, iconSet, iconColor, backgroundColor) => {
-    navigation.navigate("CreatePassword", { usuario: user, icon: iconSet });
-  };
+    navigation.navigate('CreatePassword', { usuario: user, icon: iconSet })
+  }
 
   return (
     <View style={styles.container}>
@@ -29,7 +30,7 @@ export default function LogoPickerScreen({ navigation }: { navigation }) {
         />
       </View>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -39,26 +40,26 @@ const styles = StyleSheet.create({
   },
   iconPickerContainer: {
     flex: 1,
-    alignItems: "center",
+    alignItems: 'center',
   },
   iconContainer: {
     width: 50,
     height: 50,
     borderRadius: 50,
     margin: 5,
-    justifyContent: "center",
+    justifyContent: 'center',
     marginTop: 20,
-    alignItems: "center",
-    backgroundColor: "#B49134",
+    alignItems: 'center',
+    backgroundColor: '#B49134',
   },
   textHeaders: {
-    color: "#999",
+    color: '#999',
   },
   SearchBar: {
-    backgroundColor: "#fff",
-    borderColor: "#B49134",
+    backgroundColor: '#fff',
+    borderColor: '#B49134',
     borderWidth: 2,
     minWidth: 300,
-    color: "#000",
+    color: '#000',
   },
-});
+})

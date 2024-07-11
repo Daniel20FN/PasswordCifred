@@ -1,37 +1,38 @@
-import React, { useState } from "react";
-import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
+/* eslint-disable react/prop-types */
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import CryptoJS from 'crypto-js'
 import {
   Button,
   Center,
-  VStack,
-  Image,
-  FormControl,
-  Input,
-  Heading,
   Divider,
+  FormControl,
+  Heading,
+  Image,
+  Input,
   Link,
-} from "native-base";
-import { User } from "../types/types";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import CustomAlert from "../components/General/CustomAlert";
-import CryptoJS from "crypto-js";
+  VStack,
+} from 'native-base'
+import React, { useState } from 'react'
+import { Keyboard, TouchableWithoutFeedback, View } from 'react-native'
+import CustomAlert from '../components/General/CustomAlert'
+import { User } from '../types/types'
 
 export default function RegisterScreen({ navigation }) {
-  const [nombre, setNombre] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
-  const [title, setTitle] = useState("Error al Registrarse");
-  const [textAlert, setTextAlert] = useState("");
+  const [nombre, setNombre] = useState('')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [isOpen, setIsOpen] = useState(false)
+  const [title, setTitle] = useState('Error al Registrarse')
+  const [textAlert, setTextAlert] = useState('')
 
   const handleRegister = async () => {
     try {
       if (
-        nombre.trim() !== "" &&
-        username.trim() != "" &&
-        password.trim() != ""
+        nombre.trim() !== '' &&
+        username.trim() != '' &&
+        password.trim() != ''
       ) {
-        const hash = CryptoJS.SHA256(password).toString();
+        const hash = CryptoJS.SHA256(password).toString()
 
         const userData: User = {
           nombre,
@@ -39,61 +40,61 @@ export default function RegisterScreen({ navigation }) {
           password: hash,
           keepLogin: false,
           isActive: false,
-        };
+        }
 
         // Obtener los datos de registro guardados en AsyncStorage
-        const registrosAnteriores = await AsyncStorage.getItem("registros");
-        let nuevosRegistros: User[] = [];
+        const registrosAnteriores = await AsyncStorage.getItem('registros')
+        let nuevosRegistros: User[] = []
 
         if (registrosAnteriores !== null) {
           // Si hay datos anteriores, convertirlos de JSON a array
-          nuevosRegistros = JSON.parse(registrosAnteriores);
+          nuevosRegistros = JSON.parse(registrosAnteriores)
         }
 
         //Comprobar que el usuario no esta registrado ya
         const usuarioExistente = nuevosRegistros.find(
           (user) => user.username === username
-        );
+        )
 
         if (usuarioExistente) {
-          setIsOpen(true);
+          setIsOpen(true)
           setTextAlert(
-            "Ya existe un usuario con estas credenciales, por favor cree uno nuevo o inicie sesion."
-          );
+            'Ya existe un usuario con estas credenciales, por favor cree uno nuevo o inicie sesion.'
+          )
         } else {
           // Agregar el nuevo registro al array de registros
-          nuevosRegistros.push(userData);
+          nuevosRegistros.push(userData)
 
           // Guardar el array actualizado en AsyncStorage
           await AsyncStorage.setItem(
-            "registros",
+            'registros',
             JSON.stringify(nuevosRegistros)
-          );
+          )
 
-          console.log(nuevosRegistros);
+          console.log(nuevosRegistros)
 
           // Limpiar los campos después de registrar
-          setNombre("");
-          setUsername("");
-          setPassword("");
+          setNombre('')
+          setUsername('')
+          setPassword('')
 
           // Navegar a la pantalla de lista de contraseñas o cualquier otra pantalla deseada
-          navigation.navigate("Login", { shouldReload: false });
+          navigation.navigate('Login', { shouldReload: false })
         }
       } else {
-        setIsOpen(true);
-        setTextAlert("Rellene todos los campos por favor.");
-        setTitle("Campos Vacios");
+        setIsOpen(true)
+        setTextAlert('Rellene todos los campos por favor.')
+        setTitle('Campos Vacios')
       }
     } catch (error) {
-      console.error("Error al registrar usuario:", error);
+      console.error('Error al registrar usuario:', error)
     }
-  };
+  }
 
   return (
     <TouchableWithoutFeedback
       onPress={() => {
-        Keyboard.dismiss();
+        Keyboard.dismiss()
       }}
     >
       <View>
@@ -106,14 +107,14 @@ export default function RegisterScreen({ navigation }) {
         <VStack
           width="100%"
           height="100%"
-          justifyContent={"center"}
+          justifyContent={'center'}
           space={4}
           paddingLeft={50}
           paddingRight={50}
         >
           <Center shadow={3} marginBottom={5}>
             <Image
-              source={require("../assets/LogoTransparente.png")}
+              source={require('../assets/LogoTransparente.png')}
               alt="Logo Encrypt"
               size="xl"
             />
@@ -140,7 +141,7 @@ export default function RegisterScreen({ navigation }) {
               Registrarse
             </Button>
             <Center marginTop={2}>
-              <Link onPress={() => navigation.navigate("Login")}>
+              <Link onPress={() => navigation.navigate('Login')}>
                 Iniciar Sesion
               </Link>
             </Center>
@@ -148,5 +149,5 @@ export default function RegisterScreen({ navigation }) {
         </VStack>
       </View>
     </TouchableWithoutFeedback>
-  );
+  )
 }

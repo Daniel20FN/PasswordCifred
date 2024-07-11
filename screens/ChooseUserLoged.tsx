@@ -1,34 +1,35 @@
-import React from "react";
-import { View } from "react-native";
-import { VStack, Divider, Heading, Link } from "native-base";
-import { User } from "../types/types";
-import { useRoute } from "@react-navigation/native";
-import { CardComponent } from "../components/General/CardComponent";
+/* eslint-disable react/prop-types */
+import { useRoute } from '@react-navigation/native'
+import { Divider, Heading, Link, VStack } from 'native-base'
+import React from 'react'
+import { View } from 'react-native'
+import { CardComponent } from '../components/General/CardComponent'
+import { User } from '../types/types'
 
 const ChooseUserLoged = ({ navigation }) => {
-  const route = useRoute();
-  const logedUsers: User[] = route.params["logedUsers"];
-  console.log(logedUsers);
+  const route = useRoute()
+  const logedUsers: User[] = route.params['logedUsers']
+  console.log(logedUsers)
 
   const handleLogin = (user) => {
-    navigation.navigate("Tab", {
-      screen: "PasswordList",
+    navigation.navigate('Tab', {
+      screen: 'PasswordList',
       params: { userLoged: user },
-    });
-  };
+    })
+  }
 
   return (
     <View>
       <VStack
         width="100%"
         height="80%"
-        justifyContent={"center"}
+        justifyContent={'center'}
         space={4}
-        alignItems={"center"}
+        alignItems={'center'}
       >
         <Heading>Cuentas disponibles:</Heading>
         <Link
-          onPress={() => navigation.navigate("Login", { shouldReload: false })}
+          onPress={() => navigation.navigate('Login', { shouldReload: false })}
         >
           Usar otra cuenta
         </Link>
@@ -38,15 +39,15 @@ const ChooseUserLoged = ({ navigation }) => {
             <CardComponent
               key={index}
               aplicacion={`${user.username} (${user.nombre})`}
-              icono={"person-outline"}
+              icono={'person-outline'}
               useButton
-              iconoDerecha={"double-arrow"}
+              iconoDerecha={'double-arrow'}
               onPress={() => handleLogin(user)}
             />
           ))}
       </VStack>
     </View>
-  );
-};
+  )
+}
 
-export default ChooseUserLoged;
+export default ChooseUserLoged

@@ -1,5 +1,5 @@
-import { Button, Center, AlertDialog } from "native-base";
-import React from "react";
+import { AlertDialog, Button, Center } from 'native-base'
+import React from 'react'
 
 const CustomAlert = ({
   isOpen,
@@ -7,14 +7,14 @@ const CustomAlert = ({
   title,
   text,
 }: {
-  isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  title: string;
-  text: string;
+  isOpen: boolean
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+  title: string
+  text: string
 }) => {
-  const onClose = () => setIsOpen(false);
+  const onClose = () => setIsOpen(false)
 
-  const cancelRef = React.useRef(null);
+  const cancelRef = React.useRef(null)
   return (
     <Center>
       <AlertDialog
@@ -36,7 +36,7 @@ const CustomAlert = ({
         </AlertDialog.Content>
       </AlertDialog>
     </Center>
-  );
-};
+  )
+}
 
-export default CustomAlert;
+export default CustomAlert

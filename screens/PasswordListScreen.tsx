@@ -1,69 +1,69 @@
-import React, { useState, useEffect } from "react";
-import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
+/* eslint-disable react/prop-types */
+import { MaterialIcons } from '@expo/vector-icons'
+import { useRoute } from '@react-navigation/native'
 import {
   Divider,
   HStack,
   Icon,
   IconButton,
   ScrollView,
-  Text,
   VStack,
-} from "native-base";
-import SearchBar from "../components/PasswordComponents/SearchBar";
-import { MaterialIcons } from "@expo/vector-icons";
-import PasswordList from "../components/PasswordComponents/PasswordList";
-import { useRoute } from "@react-navigation/native";
-import { User } from "../types/types";
+} from 'native-base'
+import React, { useEffect, useState } from 'react'
+import { Keyboard, TouchableWithoutFeedback } from 'react-native'
+import PasswordList from '../components/PasswordComponents/PasswordList'
+import SearchBar from '../components/PasswordComponents/SearchBar'
+import { User } from '../types/types'
 
-let currentUser = null;
+let currentUser = null
 
 function setCurrentUser(user: User) {
-  currentUser = user;
+  currentUser = user
 }
 
 export function getCurrentUser() {
-  return currentUser;
+  return currentUser
 }
 
 export default function PasswordListScreen({ navigation }) {
   const guestUser: User = {
-    nombre: "Invitado",
-    username: "invitado",
-    password: "root",
+    nombre: 'Invitado',
+    username: 'invitado',
+    password: 'root',
     keepLogin: false,
     isActive: false,
-  };
+  }
 
-  const [isFocused, setIsFocused] = useState(false);
-  const [busqueda, setBusqueda] = useState<string | undefined>(undefined);
-  const route = useRoute();
-  const parametros = route.params;
+  const [isFocused, setIsFocused] = useState(false)
+  const [busqueda, setBusqueda] = useState<string | undefined>(undefined)
+  const route = useRoute()
+  const parametros = route.params
   const NuevoItemCreado =
-    parametros != undefined ? parametros["created"] : false;
+    parametros != undefined ? parametros['created'] : false
   const UsuarioLogeado: User =
-    parametros != undefined ? parametros["userLoged"] : guestUser;
+    parametros != undefined ? parametros['userLoged'] : guestUser
 
   useEffect(() => {
-    if (parametros && parametros["userLoged"]) {
-      setCurrentUser(parametros["userLoged"]);
+    if (parametros && parametros['userLoged']) {
+      setCurrentUser(parametros['userLoged'])
     } else {
-      setCurrentUser(guestUser);
+      setCurrentUser(guestUser)
     }
-  }, [parametros]);
+  }, [parametros])
 
-  console.log("Usuario en PasswordScree " + UsuarioLogeado.username);
-  console.log("Created en PasswordScreem " + NuevoItemCreado);
+  console.log('Usuario en PasswordScree ' + UsuarioLogeado.username)
+  console.log('Created en PasswordScreem ' + NuevoItemCreado)
   return (
     <TouchableWithoutFeedback
       onPress={() => {
-        Keyboard.dismiss();
-        setIsFocused(false);
+        Keyboard.dismiss()
+        setIsFocused(false)
       }}
     >
       <ScrollView>
         <VStack>
           <HStack justifyContent="space-between" alignItems="center">
-            <VStack w={"80%"}>
+            <VStack w={'80%'}>
               <SearchBar
                 isFocused={isFocused}
                 setIsFocused={setIsFocused}
@@ -76,7 +76,7 @@ export default function PasswordListScreen({ navigation }) {
                 icon={
                   <Icon
                     onPress={() =>
-                      navigation.navigate("CreatePassword", {
+                      navigation.navigate('CreatePassword', {
                         usuario: UsuarioLogeado,
                       })
                     }
@@ -90,7 +90,7 @@ export default function PasswordListScreen({ navigation }) {
               />
             </VStack>
           </HStack>
-          <Divider bg={"#F1BD3D"} h={"1"} />
+          <Divider bg={'#F1BD3D'} h={'1'} />
           <PasswordList
             NuevoItemCreado={NuevoItemCreado}
             busqueda={busqueda}
@@ -100,5 +100,5 @@ export default function PasswordListScreen({ navigation }) {
         </VStack>
       </ScrollView>
     </TouchableWithoutFeedback>
-  );
+  )
 }
