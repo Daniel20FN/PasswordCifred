@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+import { ENCRYPTION_KEY } from '@env'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useRoute } from '@react-navigation/native'
 import CryptoJS from 'crypto-js'
@@ -27,7 +29,6 @@ function generateSecurePassword(length = 20) {
   return password
 }
 
-// eslint-disable-next-line react/prop-types
 export default function CreatePassword({ navigation }) {
   const [isOpen, setIsOpen] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
@@ -44,7 +45,7 @@ export default function CreatePassword({ navigation }) {
   const user: User = route.params['usuario']
   const icono = route.params['icon']
   console.log(icono)
-  console.log(encryptionKey)
+  console.log(ENCRYPTION_KEY)
 
   const handleNuevoItem = async () => {
     // Crear un objeto con los datos de la contraseña
@@ -67,7 +68,7 @@ export default function CreatePassword({ navigation }) {
 
     // Verificar si la aplicación ya existe
     const itemExistente = nuevaContraseña.some(
-      (e) => e.nombre === itemData.nombre && e.username === itemData.username
+      (e) => e.nombre === itemData.nombre && e.username === itemData.username,
     )
 
     if (itemExistente) {
@@ -84,7 +85,7 @@ export default function CreatePassword({ navigation }) {
     // Agregar el nuevo registro al array de registros
     const hash = CryptoJS.AES.encrypt(
       contraseña,
-      NativeConfig.ENCRYPTION_KEY
+      NativeConfig.ENCRYPTION_KEY,
     ).toString()
     itemData.contraseña = hash
     nuevaContraseña.push(itemData)
@@ -94,11 +95,11 @@ export default function CreatePassword({ navigation }) {
     if (itemData.contraseña != '' && itemData.nombre != '') {
       await AsyncStorage.setItem(
         'aplicaciones',
-        JSON.stringify(nuevaContraseña)
+        JSON.stringify(nuevaContraseña),
       ).then(() => {
         setTitle('Aplicación guardada ')
         setTextAlert(
-          'Su aplicación se ha almacenado correctamente, revise su lista cuando no recuerde su contraseña'
+          'Su aplicación se ha almacenado correctamente, revise su lista cuando no recuerde su contraseña',
         )
       })
     } else {
