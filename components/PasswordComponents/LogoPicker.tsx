@@ -1,12 +1,13 @@
-import * as React from "react";
-import { Text, View, StyleSheet } from "react-native";
-import { IconPicker } from "@grassper/react-native-icon-picker";
+/* eslint-disable react/prop-types */
+import { IconPicker } from '@grassper/react-native-icon-picker'
+import * as React from 'react'
+import { StyleSheet, View } from 'react-native'
 
 export default function LogoPickerScreen({ navigation }) {
   const handleSubmit = (id, iconName, iconSet, iconColor, backgroundColor) => {
-    navigation.goBack({ icono: iconName });
-    console.log({ id, iconName, iconSet, iconColor, backgroundColor });
-  };
+    navigation.goBack({ icono: iconName })
+    console.log({ id, iconName, iconSet, iconColor, backgroundColor })
+  }
 
   return (
     <View style={styles.container}>
@@ -26,7 +27,7 @@ export default function LogoPickerScreen({ navigation }) {
         />
       </View>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -36,26 +37,26 @@ const styles = StyleSheet.create({
   },
   iconPickerContainer: {
     flex: 1,
-    alignItems: "center",
+    alignItems: 'center',
   },
   iconContainer: {
     width: 50,
     height: 50,
     borderRadius: 50,
     margin: 5,
-    justifyContent: "center",
+    justifyContent: 'center',
     marginTop: 20,
-    alignItems: "center",
-    backgroundColor: "#B49134",
+    alignItems: 'center',
+    backgroundColor: '#B49134',
   },
   textHeaders: {
-    color: "#999",
+    color: '#999',
   },
   SearchBar: {
-    backgroundColor: "#fff",
-    borderColor: "#B49134",
+    backgroundColor: '#fff',
+    borderColor: '#B49134',
     borderWidth: 2,
     minWidth: 300,
-    color: "#000",
+    color: '#000',
   },
-});
+})
