@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Icon, Input, VStack, View } from "native-base";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons } from '@expo/vector-icons'
+import { Icon, Input, VStack, View } from 'native-base'
+import React from 'react'
 
 export default function SearchBar({
   isFocused,
@@ -8,10 +8,10 @@ export default function SearchBar({
   busqueda,
   setBusqueda,
 }: {
-  isFocused: boolean;
-  setIsFocused: React.Dispatch<React.SetStateAction<boolean>>;
-  busqueda: string | undefined;
-  setBusqueda: React.Dispatch<React.SetStateAction<string | undefined>>;
+  isFocused: boolean
+  setIsFocused: React.Dispatch<React.SetStateAction<boolean>>
+  busqueda: string | undefined
+  setBusqueda: React.Dispatch<React.SetStateAction<string | undefined>>
 }) {
   return (
     <View>
@@ -22,9 +22,9 @@ export default function SearchBar({
           onChangeText={(text) => setBusqueda(text)}
           width="100%"
           borderRadius="4"
-          focusOutlineColor={"#F1BD3D"}
+          focusOutlineColor={'#F1BD3D'}
           onFocus={() => setIsFocused(true)}
-          bgColor={isFocused ? "#FFF4DD" : "#F3F4F6"}
+          bgColor={isFocused ? '#FFF4DD' : '#F3F4F6'}
           py="3"
           px="1"
           fontSize="14"
@@ -50,5 +50,5 @@ export default function SearchBar({
         />
       </VStack>
     </View>
-  );
+  )
 }

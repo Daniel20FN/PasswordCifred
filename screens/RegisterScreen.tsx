@@ -53,13 +53,13 @@ export default function RegisterScreen({ navigation }) {
 
         //Comprobar que el usuario no esta registrado ya
         const usuarioExistente = nuevosRegistros.find(
-          (user) => user.username === username,
+          (user) => user.username === username
         )
 
         if (usuarioExistente) {
           setIsOpen(true)
           setTextAlert(
-            'Ya existe un usuario con estas credenciales, por favor cree uno nuevo o inicie sesion.',
+            'Ya existe un usuario con estas credenciales, por favor cree uno nuevo o inicie sesion.'
           )
         } else {
           // Agregar el nuevo registro al array de registros
@@ -68,7 +68,7 @@ export default function RegisterScreen({ navigation }) {
           // Guardar el array actualizado en AsyncStorage
           await AsyncStorage.setItem(
             'registros',
-            JSON.stringify(nuevosRegistros),
+            JSON.stringify(nuevosRegistros)
           )
 
           console.log(nuevosRegistros)

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/prop-types */
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useFocusEffect, useRoute } from '@react-navigation/native'
@@ -26,10 +25,13 @@ export default function LoginScreen({ navigation }) {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [isOpen, setIsOpen] = useState(false)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [title, setTitle] = useState('Error al Iniciar Sesion')
   const [textAlert, setTextAlert] = useState('')
   const [keepLogin, setKeepLogin] = useState(false)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [logedUsers, setLogedUsers] = useState<User[]>([])
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [logedUser, setLogedUser] = useState<User>(undefined)
 
   const route = useRoute()
@@ -50,6 +52,7 @@ export default function LoginScreen({ navigation }) {
               if (!(lastUsersLoged.length == 0)) {
                 if (lastUsersLoged.length >= 1) {
                   setLogedUsers(lastUsersLoged)
+
                   navigation.navigate('ChooseUserLoged', {
                     logedUsers: lastUsersLoged,
                   })
@@ -91,6 +94,7 @@ export default function LoginScreen({ navigation }) {
           await AsyncStorage.setItem('registros', JSON.stringify(users))
 
           setLogedUser(userToFind)
+
           navigation.navigate('Tab', {
             screen: 'PasswordList',
             params: { userLoged: userToFind },

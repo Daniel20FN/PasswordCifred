@@ -1,21 +1,22 @@
-import React, { useState } from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { NativeBaseProvider } from "native-base";
-import RegisterScreen from "./screens/RegisterScreen";
-import LoginScreen from "./screens/LoginScreen";
-import PasswordListScreen from "./screens/PasswordListScreen";
-import CreatePasswordScreen from "./screens/CreatePasswordScreen";
-import ChooseUserLoged from "./screens/ChooseUserLoged";
-import PasswordDetailsScreen from "./screens/PasswordDetailsScreen";
-import AccountScreen from "./screens/AccountScreen";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons } from "@expo/vector-icons";
-import AccountDataScreen from "./screens/AccountDataScreen";
-import LogoPickerScreen from "./components/PasswordComponents/LogoPicker";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Ionicons } from '@expo/vector-icons'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { NativeBaseProvider } from 'native-base'
+import React from 'react'
+import LogoPickerScreen from './components/PasswordComponents/LogoPicker'
+import AccountDataScreen from './screens/AccountDataScreen'
+import AccountScreen from './screens/AccountScreen'
+import ChooseUserLoged from './screens/ChooseUserLoged'
+import CreatePasswordScreen from './screens/CreatePasswordScreen'
+import LoginScreen from './screens/LoginScreen'
+import PasswordDetailsScreen from './screens/PasswordDetailsScreen'
+import PasswordListScreen from './screens/PasswordListScreen'
+import RegisterScreen from './screens/RegisterScreen'
 
-const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator()
+const Stack = createNativeStackNavigator()
 
 const Tabs = () => {
   return (
@@ -23,15 +24,15 @@ const Tabs = () => {
       screenOptions={{
         tabBarLabelStyle: { fontSize: 14 },
         tabBarStyle: { height: 60, paddingBottom: 5 },
-        tabBarActiveTintColor: "#F1BD3D", // Color del texto cuando está seleccionado
-        tabBarInactiveTintColor: "gray",
-        headerTitleAlign: "center",
+        tabBarActiveTintColor: '#F1BD3D', // Color del texto cuando está seleccionado
+        tabBarInactiveTintColor: 'gray',
+        headerTitleAlign: 'center',
         headerStyle: {
-          backgroundColor: "#B49134",
+          backgroundColor: '#B49134',
         },
-        headerTintColor: "#fff",
+        headerTintColor: '#fff',
         headerTitleStyle: {
-          fontWeight: "bold",
+          fontWeight: 'bold',
         },
       }}
     >
@@ -39,10 +40,10 @@ const Tabs = () => {
         name="PasswordList"
         component={PasswordListScreen}
         options={{
-          title: "Contraseñas",
-          tabBarLabel: "Contraseñas",
+          title: 'Contraseñas',
+          tabBarLabel: 'Contraseñas',
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="lock-closed" color={"#F1BD3D"} size={size + 5} />
+            <Ionicons name="lock-closed" color={'#F1BD3D'} size={size + 5} />
           ),
         }}
       />
@@ -50,16 +51,16 @@ const Tabs = () => {
         name="Cuenta"
         component={AccountScreen}
         options={{
-          title: "Mi Cuenta",
-          tabBarLabel: "Mi Cuenta",
+          title: 'Mi Cuenta',
+          tabBarLabel: 'Mi Cuenta',
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name={"person"} color={"#F1BD3D"} size={size + 5} />
+            <Ionicons name={'person'} color={'#F1BD3D'} size={size + 5} />
           ),
         }}
       />
     </Tab.Navigator>
-  );
-};
+  )
+}
 
 export default function App() {
   return (
@@ -67,13 +68,13 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
-            headerTitleAlign: "center",
+            headerTitleAlign: 'center',
             headerStyle: {
-              backgroundColor: "#B49134",
+              backgroundColor: '#B49134',
             },
-            headerTintColor: "#fff",
+            headerTintColor: '#fff',
             headerTitleStyle: {
-              fontWeight: "bold",
+              fontWeight: 'bold',
             },
           }}
         >
@@ -81,7 +82,7 @@ export default function App() {
             name="Login"
             component={LoginScreen}
             options={{
-              title: "Iniciar Sesión",
+              title: 'Iniciar Sesión',
               headerShown: false,
               headerLeft: null,
             }}
@@ -95,7 +96,7 @@ export default function App() {
             name="Register"
             component={RegisterScreen}
             options={{
-              title: "Registrarse",
+              title: 'Registrarse',
               headerShown: false,
               headerLeft: null,
             }}
@@ -103,23 +104,23 @@ export default function App() {
           <Stack.Screen
             name="CreatePassword"
             component={CreatePasswordScreen}
-            options={{ title: "Crear Contraseña" }}
+            options={{ title: 'Crear Contraseña' }}
           />
           <Stack.Screen
             name="PasswordDetailsScreen"
             component={PasswordDetailsScreen}
-            options={{ title: "Detalles de contraseña" }}
+            options={{ title: 'Detalles de contraseña' }}
           />
           <Stack.Screen
             name="LogoPickerScreen"
             component={LogoPickerScreen}
-            options={{ title: "Seleccionar Logo" }}
+            options={{ title: 'Seleccionar Logo' }}
           />
           <Stack.Screen
             name="ChooseUserLoged"
             component={ChooseUserLoged}
             options={{
-              title: "Usuarios con Sesión Iniciada",
+              title: 'Usuarios con Sesión Iniciada',
               headerLeft: null,
               headerShown: false,
             }}
@@ -128,7 +129,7 @@ export default function App() {
             name="AccountDataScreen"
             component={AccountDataScreen}
             options={{
-              title: "Mis Datos",
+              title: 'Mis Datos',
               headerLeft: null,
               headerShown: true,
             }}
@@ -136,5 +137,5 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>
-  );
+  )
 }

@@ -27,7 +27,7 @@ const CuentaScreen = ({ navigation }) => {
     if (usersData !== null) {
       const users: User[] = JSON.parse(usersData)
       const currentUser = users.find(
-        (user) => user.username === userLoged.username,
+        (user) => user.username === userLoged.username
       )
       console.log(currentUser)
       currentUser.keepLogin = false

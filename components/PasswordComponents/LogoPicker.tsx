@@ -1,12 +1,15 @@
-/* eslint-disable react/prop-types */
 import { IconPicker } from '@grassper/react-native-icon-picker'
+import { useRoute } from '@react-navigation/native'
 import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
+import { User } from '../../types/types'
 
-export default function LogoPickerScreen({ navigation }) {
+export default function LogoPickerScreen({ navigation }: { navigation }) {
+  const route = useRoute()
+  const user: User = route.params['usuario']
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleSubmit = (id, iconName, iconSet, iconColor, backgroundColor) => {
-    navigation.goBack({ icono: iconName })
-    console.log({ id, iconName, iconSet, iconColor, backgroundColor })
+    navigation.navigate('CreatePassword', { usuario: user, icon: iconSet })
   }
 
   return (

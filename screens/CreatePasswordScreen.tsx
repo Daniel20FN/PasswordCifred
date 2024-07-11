@@ -1,46 +1,50 @@
-import React, { useEffect, useState } from "react";
-import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useRoute } from '@react-navigation/native'
+import CryptoJS from 'crypto-js'
 import {
-  Text,
+  Button,
   Center,
+  Checkbox,
   FormControl,
-  VStack,
   Image,
   Input,
-  Button,
-  Checkbox,
-} from "native-base";
-import { App, User } from "../types/types";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import CustomAlert from "../components/General/CustomAlert";
-import { useRoute } from "@react-navigation/native";
-import CryptoJS from "crypto-js";
-import Config from "react-native-config";
+  VStack,
+} from 'native-base'
+import React, { useState } from 'react'
+import { Keyboard, TouchableWithoutFeedback, View } from 'react-native'
+import NativeConfig from 'react-native-config'
+import CustomAlert from '../components/General/CustomAlert'
+import { App, User } from '../types/types'
 
 function generateSecurePassword(length = 20) {
   const charset =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=";
-  let password = "";
+    'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-='
+  let password = ''
   for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * charset.length);
-    password += charset[randomIndex];
+    const randomIndex = Math.floor(Math.random() * charset.length)
+    password += charset[randomIndex]
   }
-  return password;
+  return password
 }
 
+// eslint-disable-next-line react/prop-types
 export default function CreatePassword({ navigation }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [useGeneratedPassword, setUseGeneratedPassword] = useState(false);
+  const [isOpen, setIsOpen] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const [useGeneratedPassword, setUseGeneratedPassword] = useState(false)
 
-  const [aplicacion, setAplicacion] = useState("");
-  const [icono, setIcono] = useState("");
-  const [contraseña, setContraseña] = useState("");
-  const [title, setTitle] = useState("");
-  const [textAlert, setTextAlert] = useState("");
+  const [aplicacion, setAplicacion] = useState('')
 
-  const route = useRoute();
-  const user: User = route.params["usuario"];
+  const [contraseña, setContraseña] = useState('')
+  const [title, setTitle] = useState('')
+  const [textAlert, setTextAlert] = useState('')
+
+  const encryptionKey = NativeConfig.ENCRYPTION_KEY
+  const route = useRoute()
+  const user: User = route.params['usuario']
+  const icono = route.params['icon']
+  console.log(icono)
+  console.log(encryptionKey)
 
   const handleNuevoItem = async () => {
     // Crear un objeto con los datos de la contraseña
@@ -49,90 +53,88 @@ export default function CreatePassword({ navigation }) {
       nombre: aplicacion,
       contraseña: contraseña,
       username: user.username,
-    };
-    console.log("hola");
+    }
 
     // Obtener los datos de registro guardados en AsyncStorage
-    const contraseñasAnteriores = await AsyncStorage.getItem("aplicaciones");
-    let nuevaContraseña: App[] = [];
-    console.log(itemData);
+    const contraseñasAnteriores = await AsyncStorage.getItem('aplicaciones')
+    let nuevaContraseña: App[] = []
+    console.log(itemData)
 
     if (contraseñasAnteriores !== null) {
       // Si hay datos anteriores, convertirlos de JSON a array
-      nuevaContraseña = JSON.parse(contraseñasAnteriores);
+      nuevaContraseña = JSON.parse(contraseñasAnteriores)
     }
 
     // Verificar si la aplicación ya existe
     const itemExistente = nuevaContraseña.some(
       (e) => e.nombre === itemData.nombre && e.username === itemData.username
-    );
+    )
 
     if (itemExistente) {
-      setTitle("Aplicación repetida");
-      setTextAlert("Esta aplicación ya está creada");
-      setIsOpen(true);
-      setAplicacion("");
-      setIcono("");
-      setContraseña("");
-      return "Error, ya existe";
+      setTitle('Aplicación repetida')
+      setTextAlert('Esta aplicación ya está creada')
+      setIsOpen(true)
+      setAplicacion('')
+      setContraseña('')
+      return 'Error, ya existe'
     }
-    console.log("key");
-    console.log(Config.ENCRYPTION_KEY);
+    console.log('key')
+
+    console.log(encryptionKey)
     // Agregar el nuevo registro al array de registros
     const hash = CryptoJS.AES.encrypt(
       contraseña,
-      Config.ENCRYPTION_KEY
-    ).toString();
-    itemData.contraseña = hash;
-    nuevaContraseña.push(itemData);
-    console.log(hash);
+      NativeConfig.ENCRYPTION_KEY
+    ).toString()
+    itemData.contraseña = hash
+    nuevaContraseña.push(itemData)
+    console.log(hash)
 
     // Guardar el array actualizado en AsyncStorage
-    if (itemData.contraseña != "" && itemData.nombre != "") {
+    if (itemData.contraseña != '' && itemData.nombre != '') {
       await AsyncStorage.setItem(
-        "aplicaciones",
+        'aplicaciones',
         JSON.stringify(nuevaContraseña)
       ).then(() => {
-        setTitle("Aplicación guardada ");
+        setTitle('Aplicación guardada ')
         setTextAlert(
-          "Su aplicación se ha almacenado correctamente, revise su lista cuando no recuerde su contraseña"
-        );
-      });
+          'Su aplicación se ha almacenado correctamente, revise su lista cuando no recuerde su contraseña'
+        )
+      })
     } else {
-      setTitle("Los campos no pueden estar vacíos");
-      setTextAlert("Rellene los campos correctamente");
-      setIsOpen(true);
-      return;
+      setTitle('Los campos no pueden estar vacíos')
+      setTextAlert('Rellene los campos correctamente')
+      setIsOpen(true)
+      return
     }
 
     // Limpiar los campos después de registrar
-    setAplicacion("");
-    setIcono("");
-    setContraseña("");
+    setAplicacion('')
+    setContraseña('')
 
     // Navegar a la pantalla de lista de contraseñas o cualquier otra pantalla deseada
-    navigation.navigate("Tab", {
-      screen: "PasswordList",
+    navigation.navigate('Tab', {
+      screen: 'PasswordList',
       params: { userLoged: user },
-    });
-  };
+    })
+  }
 
   // Handler para generar y establecer una contraseña aleatoria
   const handleGeneratedPassword = () => {
     if (useGeneratedPassword) {
-      setContraseña(generateSecurePassword());
+      setContraseña(generateSecurePassword())
     }
-  };
+  }
 
   // Efecto para generar contraseña cuando el checkbox está seleccionado
   React.useEffect(() => {
-    handleGeneratedPassword();
-  }, [useGeneratedPassword]);
+    handleGeneratedPassword()
+  }, [useGeneratedPassword])
 
   return (
     <TouchableWithoutFeedback
       onPress={() => {
-        Keyboard.dismiss();
+        Keyboard.dismiss()
       }}
     >
       <View>
@@ -145,14 +147,14 @@ export default function CreatePassword({ navigation }) {
         <VStack
           width="100%"
           height="100%"
-          justifyContent={"center"}
+          justifyContent={'center'}
           space={4}
           paddingLeft={50}
           paddingRight={50}
         >
           <Center shadow={3} marginBottom={5}>
             <Image
-              source={require("../assets/LogoTransparenteSinLetras.png")}
+              source={require('../assets/LogoTransparenteSinLetras.png')}
               alt="Logo Encrypt"
               size="xl"
             />
@@ -165,7 +167,7 @@ export default function CreatePassword({ navigation }) {
             />
             <FormControl.Label>Contraseña</FormControl.Label>
             <Input
-              type={showPassword ? "text" : "password"}
+              type={showPassword ? 'text' : 'password'}
               value={contraseña}
               onChangeText={(text) => setContraseña(text)}
               marginBottom={5}
@@ -173,7 +175,7 @@ export default function CreatePassword({ navigation }) {
             <Checkbox
               isChecked={showPassword}
               onChange={() => setShowPassword(!showPassword)}
-              value={""}
+              value={''}
             >
               Mostrar Contraseña
             </Checkbox>
@@ -181,14 +183,16 @@ export default function CreatePassword({ navigation }) {
               isChecked={useGeneratedPassword}
               onChange={() => {
                 setUseGeneratedPassword(!useGeneratedPassword),
-                  setContraseña("");
+                  setContraseña('')
               }}
-              value={""}
+              value={''}
             >
               Usar Contraseña Aleatoria
             </Checkbox>
             <Button
-              onPress={() => navigation.navigate("LogoPickerScreen")}
+              onPress={() =>
+                navigation.navigate('LogoPickerScreen', { usuario: user })
+              }
               marginTop={3}
               size="sm"
               bgColor="#B49134"
@@ -207,5 +211,5 @@ export default function CreatePassword({ navigation }) {
         </VStack>
       </View>
     </TouchableWithoutFeedback>
-  );
+  )
 }

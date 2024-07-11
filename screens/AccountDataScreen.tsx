@@ -36,7 +36,7 @@ const AccountDataScreen = () => {
       const users: User[] = JSON.parse(usersData)
 
       const userToFind = users.find(
-        (user) => user.username === userLoged.username,
+        (user) => user.username === userLoged.username
       )
 
       if (userToFind) {
@@ -71,7 +71,7 @@ const AccountDataScreen = () => {
           setTitle('Cambios guardados correctamente.')
           setTextAlert(
             'Se ha modificado correctamente los siguientes datos: ' +
-              dataChanged.toString(),
+              dataChanged.toString()
           )
         } else {
           setIsOpen(true)
