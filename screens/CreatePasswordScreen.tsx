@@ -82,7 +82,6 @@ export default function CreatePassword({ navigation }) {
     console.log(contraseña)
     // Agregar el nuevo registro al array de registros
     const hash = CryptoJS.AES.encrypt(contraseña, ENCRYPTION_KEY).toString()
-
     itemData.contraseña = hash
     nuevaContraseña.push(itemData)
 

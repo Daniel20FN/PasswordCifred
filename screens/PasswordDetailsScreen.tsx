@@ -1,6 +1,8 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ENCRYPTION_KEY } from '@env'
 import { MaterialIcons } from '@expo/vector-icons'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useRoute } from '@react-navigation/native'
 import CryptoJS from 'crypto-js'
 import {
@@ -17,12 +19,11 @@ import {
 } from 'native-base'
 import React, { useState } from 'react'
 import { Keyboard, TouchableWithoutFeedback } from 'react-native'
-import CustomAlert from '../components/General/CustomAlert'
+import CustomAlertAccept from '../components/General/CustomAlertAccept'
 import { App, User } from '../types/types'
 
-// eslint-disable-next-line react/prop-types
 const PasswordDetailsScreen = ({ navigation }) => {
-  // TODO: Terminar vista de la contrasena, que se oculte despues de x segundos y quitar comillas
+  // TODO: Terminar vista de la contrasena, que se oculte despues de x segundos
   const [isOpen, setIsOpen] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
@@ -32,13 +33,35 @@ const PasswordDetailsScreen = ({ navigation }) => {
   const user: User = route.params['usuario']
   const app: App = route.params['App']
 
-  const passwordHashed = app.contraseña
-
   const decrypt = (cadena) => {
     const bytes = CryptoJS.AES.decrypt(cadena, ENCRYPTION_KEY)
     const decrypted = bytes.toString(CryptoJS.enc.Utf8)
     return decrypted
   }
+
+  const showAlert = () => {
+    setTitle('Eliminar Contraseña')
+    setTextAlert('Esta seguro que quiere eliminar la contraseña?')
+    setIsOpen(true)
+  }
+
+  const deletePassword = async (currentApp: App) => {
+    const contraseñasAnteriores = await AsyncStorage.getItem('aplicaciones')
+    const apps: App[] = contraseñasAnteriores
+      ? JSON.parse(contraseñasAnteriores)
+      : []
+    const appsUpdated = apps.filter(
+      (app: App) =>
+        !(
+          app.nombre === currentApp.nombre &&
+          app.username === currentApp.username
+        ),
+    )
+    AsyncStorage.setItem('aplicaciones', JSON.stringify(appsUpdated))
+    console.log('Eliminado')
+    navigation.goBack()
+  }
+
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -46,11 +69,12 @@ const PasswordDetailsScreen = ({ navigation }) => {
       }}
     >
       <View>
-        <CustomAlert
+        <CustomAlertAccept
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           title={title}
           text={textAlert}
+          onAccept={() => deletePassword(app)}
         />
         <VStack
           width="100%"
@@ -66,7 +90,6 @@ const PasswordDetailsScreen = ({ navigation }) => {
           <Divider />
           <Center>
             <Text fontSize={'2xl'}>{app.nombre}</Text>
-            <Divider />
             <FormControl mb="5">
               <FormControl.Label>Contraseña</FormControl.Label>
               <Input
@@ -85,7 +108,9 @@ const PasswordDetailsScreen = ({ navigation }) => {
             Ver contraseña
           </Checkbox>
           <IconButton
-            icon={<Icon as={MaterialIcons} name="delete" color="black" />}
+            bgColor={'#B49134'}
+            icon={<Icon as={MaterialIcons} name="delete" color="white" />}
+            onPress={() => showAlert()}
           />
         </VStack>
       </View>
