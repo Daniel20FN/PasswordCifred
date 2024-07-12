@@ -1,4 +1,6 @@
-import { Ionicons, MaterialIcons } from '@expo/vector-icons'
+import { MaterialIcons } from '@expo/vector-icons'
+import { IconCollection } from '../../assets/Icons/Icons'
+
 import {
   Box,
   Divider,
@@ -49,7 +51,7 @@ export const CardComponent = ({
         paddingLeft={2}
       >
         <VStack w={'20%'}>
-          <Icon as={Ionicons} name={icono} size="2xl" color="black" />
+          <Icon as={IconCollection} name={icono} size="2xl" color="black" />
         </VStack>
         <VStack w={'60%'}>
           <Text fontSize={'lg'}>{aplicacion}</Text>

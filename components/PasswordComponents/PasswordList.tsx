@@ -31,7 +31,7 @@ export default function PasswordScreen({
   })
 
   const filteredApps = aplicacionesGuardadas.filter((app) =>
-    app.nombre.toLowerCase().includes(busqueda?.toLowerCase() || '')
+    app.nombre.toLowerCase().includes(busqueda?.toLowerCase() || ''),
   )
 
   return (
@@ -43,7 +43,7 @@ export default function PasswordScreen({
               <CardComponent
                 key={index}
                 aplicacion={app.nombre}
-                icono={'logo-instagram'}
+                icono={app.icon}
                 useButton
                 iconoDerecha={'visibility'}
                 onPress={() => {
@@ -53,7 +53,7 @@ export default function PasswordScreen({
                   })
                 }}
               />
-            )
+            ),
         )}
       </VStack>
     </View>

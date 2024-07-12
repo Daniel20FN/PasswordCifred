@@ -44,9 +44,6 @@ export default function CreatePassword({ navigation }) {
   const user: User = route.params['usuario']
   const icono = route.params['icon']
 
-  console.log(icono)
-  console.log(ENCRYPTION_KEY)
-
   const handleNuevoItem = async () => {
     // Crear un objeto con los datos de la contraseña
     const itemData: App = {
@@ -87,7 +84,6 @@ export default function CreatePassword({ navigation }) {
     const hash = CryptoJS.AES.encrypt(contraseña, ENCRYPTION_KEY).toString()
     itemData.contraseña = hash
     nuevaContraseña.push(itemData)
-    console.log('contrasena hasheada: ' + hash)
 
     // Guardar el array actualizado en AsyncStorage
     if (itemData.contraseña != '' && itemData.nombre != '') {
