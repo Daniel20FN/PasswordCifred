@@ -1,7 +1,22 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ENCRYPTION_KEY } from '@env'
-import { MaterialIcons } from '@expo/vector-icons'
+import {
+  AntDesign,
+  Entypo,
+  EvilIcons,
+  Feather,
+  FontAwesome,
+  FontAwesome5,
+  Fontisto,
+  Foundation,
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+  Octicons,
+  SimpleLineIcons,
+  Zocial,
+} from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useRoute } from '@react-navigation/native'
 import CryptoJS from 'crypto-js'
@@ -23,7 +38,6 @@ import CustomAlertAccept from '../components/General/CustomAlertAccept'
 import { App, User } from '../types/types'
 
 const PasswordDetailsScreen = ({ navigation }) => {
-  // TODO: Terminar vista de la contrasena, que se oculte despues de x segundos
   const [isOpen, setIsOpen] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
@@ -85,7 +99,42 @@ const PasswordDetailsScreen = ({ navigation }) => {
           paddingRight={50}
         >
           <Center shadow={3} marginBottom={5}>
-            <Icon as={MaterialIcons} name={app.icon} size="2xl" color="black" />
+            <Icon
+              as={
+                app.icon.libreria === 'MaterialIcons'
+                  ? MaterialIcons
+                  : app.icon.libreria === 'Entypo'
+                  ? Entypo
+                  : app.icon.libreria === 'EvilIcons'
+                  ? EvilIcons
+                  : app.icon.libreria === 'Feather'
+                  ? Feather
+                  : app.icon.libreria === 'FontAwesome'
+                  ? FontAwesome
+                  : app.icon.libreria === 'FontAwesome5'
+                  ? FontAwesome5
+                  : app.icon.libreria === 'Fontisto'
+                  ? Fontisto
+                  : app.icon.libreria === 'Foundation'
+                  ? Foundation
+                  : app.icon.libreria === 'Ionicons'
+                  ? Ionicons
+                  : app.icon.libreria === 'MaterialCommunityIcons'
+                  ? MaterialCommunityIcons
+                  : app.icon.libreria === 'AntDesign'
+                  ? AntDesign
+                  : app.icon.libreria === 'Octicons'
+                  ? Octicons
+                  : app.icon.libreria === 'SimpleLineIcons'
+                  ? SimpleLineIcons
+                  : app.icon.libreria === 'Zocial'
+                  ? Zocial
+                  : MaterialIcons
+              }
+              name={app.icon.nombre}
+              size="6xl"
+              color="black"
+            />
           </Center>
           <Divider />
           <Center>

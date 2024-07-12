@@ -12,11 +12,11 @@ import {
   Input,
   VStack,
 } from 'native-base'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Keyboard, TouchableWithoutFeedback, View } from 'react-native'
 import 'react-native-get-random-values'
 import CustomAlert from '../components/General/CustomAlert'
-import { App, User } from '../types/types'
+import { App, IconoType, User } from '../types/types'
 
 function generateSecurePassword(length = 20) {
   const charset =
@@ -39,10 +39,19 @@ export default function CreatePassword({ navigation }) {
   const [contraseña, setContraseña] = useState('')
   const [title, setTitle] = useState('')
   const [textAlert, setTextAlert] = useState('')
+  const [icono, setIcono] = useState<IconoType>({
+    nombre: 'vpn-key',
+    libreria: 'MaterialIcons',
+  })
 
   const route = useRoute()
   const user: User = route.params['usuario']
-  const icono = route.params['icon']
+  const iconName = route.params['iconSet']
+  const iconLibrary = route.params['iconColor']
+
+  useEffect(() => {
+    setIcono({ nombre: iconName, libreria: iconLibrary })
+  }, [iconName])
 
   const handleNuevoItem = async () => {
     // Crear un objeto con los datos de la contraseña
@@ -91,10 +100,7 @@ export default function CreatePassword({ navigation }) {
         'aplicaciones',
         JSON.stringify(nuevaContraseña),
       ).then(() => {
-        setTitle('Aplicación guardada ')
-        setTextAlert(
-          'Su aplicación se ha almacenado correctamente, revise su lista cuando no recuerde su contraseña',
-        )
+        console.log('Creado: ' + itemData.icon.nombre)
       })
     } else {
       setTitle('Los campos no pueden estar vacíos')

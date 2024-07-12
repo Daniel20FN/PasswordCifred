@@ -1,5 +1,5 @@
 export type App = {
-  icon: string
+  icon: IconoType
   nombre: string
   contraseña: string
   username: string
@@ -11,4 +11,9 @@ export type User = {
   password: string
   keepLogin: boolean
   isActive: boolean
+}
+
+export type IconoType = {
+  nombre: string
+  libreria: string
 }

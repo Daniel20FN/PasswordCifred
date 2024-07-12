@@ -1,4 +1,19 @@
-import { MaterialIcons } from '@expo/vector-icons'
+import {
+  AntDesign,
+  Entypo,
+  EvilIcons,
+  Feather,
+  FontAwesome,
+  FontAwesome5,
+  Fontisto,
+  Foundation,
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+  Octicons,
+  SimpleLineIcons,
+  Zocial,
+} from '@expo/vector-icons'
 
 import {
   Box,
@@ -10,6 +25,7 @@ import {
   VStack,
 } from 'native-base'
 import React from 'react'
+import { IconoType } from '../../types/types'
 
 export const CardComponent = ({
   aplicacion,
@@ -19,11 +35,12 @@ export const CardComponent = ({
   onPress,
 }: {
   aplicacion: string
-  icono: string
+  icono: IconoType
   useButton: boolean
   iconoDerecha: string
   onPress: () => void
 }) => {
+  //console.log('Libreria desde card Component: ' + icono.libreria)
   return (
     <Box
       alignSelf={'center'}
@@ -50,7 +67,42 @@ export const CardComponent = ({
         paddingLeft={2}
       >
         <VStack w={'20%'}>
-          <Icon as={MaterialIcons} name={icono} size="2xl" color="black" />
+          <Icon
+            as={
+              icono.libreria === 'MaterialIcons'
+                ? MaterialIcons
+                : icono.libreria === 'Entypo'
+                ? Entypo
+                : icono.libreria === 'EvilIcons'
+                ? EvilIcons
+                : icono.libreria === 'Feather'
+                ? Feather
+                : icono.libreria === 'FontAwesome'
+                ? FontAwesome
+                : icono.libreria === 'FontAwesome5'
+                ? FontAwesome5
+                : icono.libreria === 'Fontisto'
+                ? Fontisto
+                : icono.libreria === 'Foundation'
+                ? Foundation
+                : icono.libreria === 'Ionicons'
+                ? Ionicons
+                : icono.libreria === 'MaterialCommunityIcons'
+                ? MaterialCommunityIcons
+                : icono.libreria === 'AntDesign'
+                ? AntDesign
+                : icono.libreria === 'Octicons'
+                ? Octicons
+                : icono.libreria === 'SimpleLineIcons'
+                ? SimpleLineIcons
+                : icono.libreria === 'Zocial'
+                ? Zocial
+                : MaterialIcons
+            }
+            name={icono.nombre}
+            size="2xl"
+            color="black"
+          />
         </VStack>
         <VStack w={'60%'}>
           <Text fontSize={'lg'}>{aplicacion}</Text>

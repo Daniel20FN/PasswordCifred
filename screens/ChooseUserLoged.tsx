@@ -39,7 +39,7 @@ const ChooseUserLoged = ({ navigation }) => {
             <CardComponent
               key={index}
               aplicacion={`${user.username} (${user.nombre})`}
-              icono={'person-outline'}
+              icono={{ nombre: 'person-outline', libreria: '' }}
               useButton
               iconoDerecha={'double-arrow'}
               onPress={() => handleLogin(user)}

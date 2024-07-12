@@ -7,11 +7,17 @@ import { User } from '../../types/types'
 export default function LogoPickerScreen({ navigation }: { navigation }) {
   const route = useRoute()
   const user: User = route.params['usuario']
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleSubmit = (id, iconName, iconSet, iconColor, backgroundColor) => {
-    navigation.navigate('CreatePassword', { usuario: user, icon: iconSet })
-  }
 
+  const handleSubmit = (id, iconName, iconSet, iconColor, backgroundColor) => {
+    navigation.navigate('CreatePassword', {
+      usuario: user,
+      id: id,
+      iconName: iconName,
+      iconSet: iconSet,
+      iconColor: iconColor,
+      backgroundColor: backgroundColor,
+    })
+  }
   return (
     <View style={styles.container}>
       <View style={styles.iconPickerContainer}>
