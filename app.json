@@ -4,10 +4,10 @@
     "slug": "PasswordCifred",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/LogoTransparenteSinLetras.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/LogoTransparenteSinLetras.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -16,12 +16,18 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/LogoTransparenteSinLetras.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.daniel20fn.PasswordCifred"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/LogoTransparenteSinLetras.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "42dcb196-8d25-400e-b60d-6d7d37bbf348"
+      }
     }
   }
 }
